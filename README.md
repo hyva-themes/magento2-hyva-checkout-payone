@@ -78,6 +78,6 @@ hyvä checkout page. For this you need to update the layout xml file inside Hyv�
 ## More Reading
 
 - If you have any doubts about the building the react app, then **[read more about it here](https://hyva-themes.github.io/magento2-hyva-checkout/build/)**.
-- If you want to know more about how Hyvä Checkout helps you to integrate any payment methods, then **[read more about it here](https://hyva-themes.github.io/magento2-hyva-checkout)**.
+- If you want to know more about how Hyvä Checkout helps you to integrate any payment methods, then **[read more about it here](https://hyva-themes.github.io/magento2-hyva-checkout/payment-integration/)**.
 - The official documentation of **[Hyvä Checkout](https://hyva-themes.github.io/magento2-hyva-checkout)**
 - The documenation of **[Payone](https://github.com/PAYONE-GmbH/magento-2)** module
