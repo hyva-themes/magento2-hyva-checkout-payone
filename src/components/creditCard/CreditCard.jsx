@@ -3,15 +3,15 @@ import { func, shape, string } from 'prop-types';
 import _get from 'lodash.get';
 import { useFormikContext } from 'formik';
 
-import RadioInput from '../../../common/Form/RadioInput';
 import CCForm from './CCForm';
 import CCIframe from './CCIframe';
 import SavedCards from './SavedCards';
 import usePayoneCC from './hooks/usePayoneCC';
-import useCheckoutFormContext from '../../../../hook/useCheckoutFormContext';
-import usePaymentMethodFormContext from '../../../paymentMethod/hooks/usePaymentMethodFormContext';
 import paymentConfig from '../../utility/paymentConfig';
-import { PAYMENT_METHOD_FORM } from '../../../../config';
+import RadioInput from '../../../../../components/common/Form/RadioInput';
+import { PAYMENT_METHOD_FORM } from '../../../../../config';
+import usePaymentMethodFormContext from '../../../../../components/paymentMethod/hooks/usePaymentMethodFormContext';
+import useCheckoutFormContext from '../../../../../hook/useCheckoutFormContext';
 
 const cardTypeField = `${PAYMENT_METHOD_FORM}.additional_data.cardtype`;
 

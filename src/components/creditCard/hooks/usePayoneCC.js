@@ -3,15 +3,15 @@ import _get from 'lodash.get';
 import _set from 'lodash.set';
 
 import paymentConfig from '../../../utility/paymentConfig';
-import { __ } from '../../../../../i18n';
-import useAppContext from '../../../../../hook/useAppContext';
-import CartContext from '../../../../../context/Cart/CartContext';
-import LocalStorage from '../../../../../utils/localStorage';
+import { __ } from '../../../../../../i18n';
+import CartContext from '../../../../../../context/Cart/CartContext';
+import useAppContext from '../../../../../../hook/useAppContext';
+import LocalStorage from '../../../../../../utils/localStorage';
 import {
   config,
-  GUEST_EMAIL_FORM,
+  LOGIN_FORM,
   PAYMENT_METHOD_FORM,
-} from '../../../../../config';
+} from '../../../../../../config';
 
 const cardTypeField = `${PAYMENT_METHOD_FORM}.additional_data.cardtype`;
 const cardHolderField = `${PAYMENT_METHOD_FORM}.additional_data.cardholder`;
@@ -120,7 +120,7 @@ export default function usePayoneCC() {
 
   const placeOrder = useCallback(
     async (response, values) => {
-      const email = _get(values, `${GUEST_EMAIL_FORM}.email`);
+      const email = _get(values, `${LOGIN_FORM}.email`);
       const payment = _get(values, PAYMENT_METHOD_FORM);
       const cardholder = _get(payment, 'additional_data.cardholder');
       const saveData = Number(!!_get(payment, 'additional_data.saveData'));

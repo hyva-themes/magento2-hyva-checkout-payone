@@ -2,10 +2,10 @@ import React from 'react';
 import _get from 'lodash.get';
 import { useFormikContext } from 'formik';
 
-import RadioInput from '../../../common/Form/RadioInput';
+import RadioInput from '../../../../../components/common/Form/RadioInput';
 import CCForm from './CCForm';
 import paymentConfig from '../../utility/paymentConfig';
-import usePaymentMethodFormContext from '../../../paymentMethod/hooks/usePaymentMethodFormContext';
+import usePaymentMethodFormContext from '../../../../../components/paymentMethod/hooks/usePaymentMethodFormContext';
 
 function formatCardExpireDate(expireDate) {
   return `${expireDate.substring(2, 4)}/${expireDate.substring(0, 2)}`;

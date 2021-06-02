@@ -1,12 +1,12 @@
 import React from 'react';
 import { useFormikContext } from 'formik';
 
-import SelectInput from '../../../common/Form/SelectInput';
-import TextInput from '../../../common/Form/TextInput';
 import CCIframe from './CCIframe';
 import paymentConfig from '../../utility/paymentConfig';
-import { PAYMENT_METHOD_FORM } from '../../../../config';
-import { __ } from '../../../../i18n';
+import { PAYMENT_METHOD_FORM } from '../../../../../config';
+import SelectInput from '../../../../../components/common/Form/SelectInput';
+import TextInput from '../../../../../components/common/Form/TextInput';
+import { __ } from '../../../../../i18n';
 
 const cardTypeOptions = paymentConfig.availableCardTypes.map(
   ({ id, title }) => ({ value: id, label: title })

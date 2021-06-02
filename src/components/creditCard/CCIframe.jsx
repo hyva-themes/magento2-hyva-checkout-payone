@@ -2,9 +2,9 @@ import React from 'react';
 import _get from 'lodash.get';
 import { useFormikContext } from 'formik';
 
-import Checkbox from '../../../common/Form/Checkbox';
-import { PAYMENT_METHOD_FORM } from '../../../../config';
 import paymentConfig from '../../utility/paymentConfig';
+import { PAYMENT_METHOD_FORM } from '../../../../../config';
+import Checkbox from '../../../../../components/common/Form/Checkbox';
 
 let { availableCardTypes } = paymentConfig;
 const { isAutoCardtypeDetectionEnabled } = paymentConfig;
