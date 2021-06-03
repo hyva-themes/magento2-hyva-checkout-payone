@@ -12,7 +12,7 @@ import {
 import usePayOneCartContext from '../../../hooks/usePayOneCartContext';
 import usePayOneAppContext from '../../../hooks/usePayOneAppContext';
 
-export default function usePayoneCC(paymentMethodCode) {
+export default function usePayOneCC(paymentMethodCode) {
   const { cartId, setRestPaymentMethod } = usePayOneCartContext();
   const { setErrorMessage, setPageLoader } = usePayOneAppContext();
 
@@ -30,9 +30,9 @@ export default function usePayoneCC(paymentMethodCode) {
       const result = await setRestPaymentMethod(paymentMethod, isLoggedIn);
       setPageLoader(false);
 
-      if (result && result.redirectUrl) {
+      if (result) {
         LocalStorage.clearCheckoutStorage();
-        window.location.replace(`${config.baseUrl}${result.redirectUrl}`);
+        window.location.replace(`${config.baseUrl}/payone/onepage/redirect/`);
       }
     },
     [setRestPaymentMethod, setPageLoader, cartId, paymentMethodCode]
@@ -79,7 +79,7 @@ export default function usePayoneCC(paymentMethodCode) {
         window.processPayoneResponseCCHosted = async response => {
           await processPayoneResponseCCHosted(response, values);
         };
-        return window.iframes.creditCardCheck('processPayoneResponseCCHosted');
+        window.iframes.creditCardCheck('processPayoneResponseCCHosted');
       }
       return true;
     },

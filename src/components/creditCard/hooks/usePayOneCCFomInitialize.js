@@ -12,12 +12,6 @@ export default function usePayOneCCFormInitialize() {
     [setFieldValue]
   );
 
-  const setCardType = useCallback(
-    cardType =>
-      setFieldValue(`${additionalDataField}.cardtype`, cardType.toUpperCase()),
-    [setFieldValue]
-  );
-
   useEffect(() => {
     setFieldValue(selectedCardField, '');
     setFieldValue(additionalDataField, {});
@@ -28,6 +22,5 @@ export default function usePayOneCCFormInitialize() {
     isFormInitialized,
     setIsFormInitialized,
     setSelectedCard,
-    setCardType,
   };
 }
