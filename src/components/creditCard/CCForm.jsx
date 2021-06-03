@@ -1,11 +1,13 @@
 import React from 'react';
+
+import { string } from 'prop-types';
 import { useFormikContext } from 'formik';
 
 import CCIframe from './CCIframe';
 import paymentConfig from '../../utility/paymentConfig';
 import { PAYMENT_METHOD_FORM } from '../../../../../config';
-import SelectInput from '../../../../../components/common/Form/SelectInput';
 import TextInput from '../../../../../components/common/Form/TextInput';
+import SelectInput from '../../../../../components/common/Form/SelectInput';
 import { __ } from '../../../../../i18n';
 
 const cardTypeOptions = paymentConfig.availableCardTypes.map(
@@ -40,5 +42,9 @@ function CCForm({ detectedCardType }) {
     </div>
   );
 }
+
+CCForm.propTypes = {
+  detectedCardType: string.isRequired,
+};
 
 export default CCForm;

@@ -1,9 +1,10 @@
 import React from 'react';
 import _get from 'lodash.get';
+import { string } from 'prop-types';
 import { useFormikContext } from 'formik';
 
-import RadioInput from '../../../../../components/common/Form/RadioInput';
 import CCForm from './CCForm';
+import RadioInput from '../../../../../components/common/Form/RadioInput';
 import paymentConfig from '../../utility/paymentConfig';
 import usePaymentMethodFormContext from '../../../../../components/paymentMethod/hooks/usePaymentMethodFormContext';
 
@@ -31,8 +32,8 @@ function SavedCards({ detectedCardType }) {
             <td className="pl-2">
               <RadioInput
                 name={fields.selectedCard}
-                checked={selectedCard === payment.payment_data.cardpan}
-                value={payment.payment_data.cardpan}
+                checked={selectedCard === paymentConfig.getCardPan(payment)}
+                value={paymentConfig.getCardPan(payment)}
               />
             </td>
             <td>
@@ -77,5 +78,9 @@ function SavedCards({ detectedCardType }) {
     </table>
   );
 }
+
+SavedCards.propTypes = {
+  detectedCardType: string.isRequired,
+};
 
 export default SavedCards;

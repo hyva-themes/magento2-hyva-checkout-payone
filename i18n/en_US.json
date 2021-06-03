@@ -1,0 +1,13 @@
+{
+  "Card Type": "Card Type",
+  "Credit Card Number": "Credit Card Number",
+  "Expiration Date": "Expiration Date",
+  "Card Verification Number": "Card Verification Number",
+  "Save the payment data for future use.": "Save the payment data for future use.",
+  "Invalid expiration date.": "Invalid expiration date.",
+  "Please choose the credit card type.": "Please choose the credit card type.",
+  "Please provide cardholder information": "Please provide cardholder information",
+  "The cardholder information entered is too long.": "The cardholder information entered is too long.",
+  "The cardholder information contains invalid characters.": "The cardholder information contains invalid characters.",
+  "This transaction could not be performed. Please select another payment method.": "This transaction could not be performed. Please select another payment method."
+}

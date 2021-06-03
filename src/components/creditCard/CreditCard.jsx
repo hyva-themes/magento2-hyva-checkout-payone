@@ -1,80 +1,63 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { func, shape, string } from 'prop-types';
-import _get from 'lodash.get';
-import { useFormikContext } from 'formik';
 
 import CCForm from './CCForm';
 import CCIframe from './CCIframe';
 import SavedCards from './SavedCards';
-import usePayoneCC from './hooks/usePayoneCC';
-import paymentConfig from '../../utility/paymentConfig';
 import RadioInput from '../../../../../components/common/Form/RadioInput';
-import { PAYMENT_METHOD_FORM } from '../../../../../config';
-import usePaymentMethodFormContext from '../../../../../components/paymentMethod/hooks/usePaymentMethodFormContext';
-import useCheckoutFormContext from '../../../../../hook/useCheckoutFormContext';
-
-const cardTypeField = `${PAYMENT_METHOD_FORM}.additional_data.cardtype`;
+import usePayOneCC from './hooks/usePayOneCC';
+import paymentConfig from '../../utility/paymentConfig';
+import usePayOneCheckoutFormContext from '../../hooks/usePayOneCheckoutFormContext';
+import useCardTypeDetection from './hooks/useCardTypeDetection';
+import usePayOneCCFormInitialize from './hooks/usePayOneCCFomInitialize';
 
 function CreditCard({ method, selected, actions }) {
-  const [cardTypeDetected, setCardTypeDetected] = useState('');
   const savedData = paymentConfig.useSavedData();
   const isSelected = method.code === selected.code;
-  const { setFieldValue } = useFormikContext();
-  const { fields } = usePaymentMethodFormContext();
-  const { registerPaymentAction } = useCheckoutFormContext();
-  const selectedCardField = fields.selectedCard;
-  const { handleCreditcardCheckThenPlaceOrder } = usePayoneCC();
+  const { isFormInitialized, setSelectedCard } = usePayOneCCFormInitialize();
+  const { registerPaymentAction } = usePayOneCheckoutFormContext();
+  const { cardTypeDetected } = useCardTypeDetection();
+  const { handleCreditCardCheckThenPlaceOrder } = usePayOneCC(method.code);
 
+  /**
+   * This will be fired when user placing the order and this payment method
+   * is selected by the user.
+   */
   const paymentSubmitHandler = useCallback(
     async values => {
-      await handleCreditcardCheckThenPlaceOrder(values);
+      await handleCreditCardCheckThenPlaceOrder(values);
       return false;
     },
-    [handleCreditcardCheckThenPlaceOrder]
+    [handleCreditCardCheckThenPlaceOrder]
   );
 
+  // registering this payment method so that it will be using the paymentSubmitHandler
+  // to do the place order action in the case this payment method is selected.
   useEffect(() => {
     registerPaymentAction(method.code, paymentSubmitHandler);
   }, [method, registerPaymentAction, paymentSubmitHandler]);
 
-  // initializing payone iframe
+  // initializing the iframe and showing the card form within the payment method.
   useEffect(() => {
-    if (isSelected) {
-      if (paymentConfig.fieldConfig.autoCardtypeDetection) {
-        paymentConfig.fieldConfig.autoCardtypeDetection.callback = newCardTypeDetected => {
-          setFieldValue(cardTypeField, newCardTypeDetected.toUpperCase());
-          setCardTypeDetected(newCardTypeDetected.toUpperCase());
-        };
-
-        const initialCardType = _get(
-          paymentConfig,
-          'fieldConfig.autoCardtypeDetection.supportedCardtypes.0'
-        );
-
-        setFieldValue(cardTypeField, initialCardType);
-        setCardTypeDetected(initialCardType);
-      }
-
+    if (isSelected && isFormInitialized) {
       window.iframes = new window.Payone.ClientApi.HostedIFrames(
         paymentConfig.fieldConfig,
         paymentConfig.request
       );
       window.iframes.setCardType('V');
     }
-  }, [isSelected, setFieldValue]);
+  }, [isSelected, isFormInitialized]);
 
   // if saved cards available for customer, then should show card list in the content
   useEffect(() => {
     if (isSelected && savedData) {
-      const defaultSavedCard = paymentConfig.savedPaymentData.find(
-        payment => Number(payment.is_default) === 1
-      );
+      const defaultSavedCard = paymentConfig.getDefaultSavedCard();
 
       if (defaultSavedCard) {
-        setFieldValue(selectedCardField, defaultSavedCard.payment_data.cardpan);
+        setSelectedCard(paymentConfig.getCardPan(defaultSavedCard));
       }
     }
-  }, [savedData, isSelected, setFieldValue, selectedCardField]);
+  }, [savedData, isSelected, setSelectedCard]);
 
   if (!isSelected) {
     return (

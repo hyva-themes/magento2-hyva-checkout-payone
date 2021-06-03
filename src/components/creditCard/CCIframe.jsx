@@ -1,10 +1,12 @@
 import React from 'react';
+import { string } from 'prop-types';
 import _get from 'lodash.get';
 import { useFormikContext } from 'formik';
 
+import Checkbox from '../../../../../components/common/Form/Checkbox';
 import paymentConfig from '../../utility/paymentConfig';
 import { PAYMENT_METHOD_FORM } from '../../../../../config';
-import Checkbox from '../../../../../components/common/Form/Checkbox';
+import { __ } from '../../../../../i18n';
 
 let { availableCardTypes } = paymentConfig;
 const { isAutoCardtypeDetectionEnabled } = paymentConfig;
@@ -34,7 +36,9 @@ function CCIframe({ detectedCardType }) {
     <>
       <div className="mt-2">
         <div className="flex justify-between mb-2">
-          <label className="md:text-sm">Credit Card Number</label>
+          <label htmlFor="cardpan" className="md:text-sm">
+            {__('Credit Card Number')}
+          </label>
           <div className="flex space-x-2">
             {isAutoCardtypeDetectionEnabled &&
               availableCardTypes.map(cardType => (
@@ -51,7 +55,9 @@ function CCIframe({ detectedCardType }) {
       </div>
 
       <div>
-        <label className="md:text-sm">Expiration Date</label>
+        <label htmlFor="cardexpiremonth" className="md:text-sm">
+          {__('Expiration Date')}
+        </label>
         <div className="flex justify-between">
           <div className="w-2/5" id="cardexpiremonth"></div>
           <div className="w-2/5" id="cardexpireyear"></div>
@@ -60,20 +66,26 @@ function CCIframe({ detectedCardType }) {
 
       {paymentConfig.checkCvc && (
         <div>
-          <label className="md:text-sm">Card Verification Number</label>
+          <label htmlFor="cardcvc2" className="md:text-sm">
+            {__('Card Verification Number')}
+          </label>
           <div id="cardcvc2" className="inputIframe"></div>
         </div>
       )}
 
       {paymentConfig.isSaveDataEnabled() && (
         <Checkbox
-          label="Save the payment data for future use."
-          name={`${PAYMENT_METHOD_FORM}.additional_data.saveData`}
+          label={__('Save the payment data for future use.')}
+          name={saveDataField}
           isChecked={saveData}
         />
       )}
     </>
   );
 }
+
+CCIframe.propTypes = {
+  detectedCardType: string.isRequired,
+};
 
 export default CCIframe;

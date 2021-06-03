@@ -62,6 +62,16 @@ const paymentConfig = {
 
     return paymentConfig.useSavedData() && selectedCard !== 'new';
   },
+
+  getDefaultSavedCard() {
+    return paymentConfig.savedPaymentData.find(
+      payment => Number(payment.is_default) === 1
+    );
+  },
+
+  getCardPan(entity) {
+    return _get(entity, 'payment_data.cardpan');
+  },
 };
 
 export default paymentConfig;
