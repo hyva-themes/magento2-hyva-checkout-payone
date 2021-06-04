@@ -6,7 +6,7 @@ import { useFormikContext } from 'formik';
 import CCForm from './CCForm';
 import RadioInput from '../../../../../components/common/Form/RadioInput';
 import paymentConfig from '../../utility/paymentConfig';
-import usePaymentMethodFormContext from '../../../../../components/paymentMethod/hooks/usePaymentMethodFormContext';
+import { selectedCardField } from './utility';
 
 function formatCardExpireDate(expireDate) {
   return `${expireDate.substring(2, 4)}/${expireDate.substring(0, 2)}`;
@@ -18,8 +18,7 @@ function getCardImage(cardType) {
 
 function SavedCards({ detectedCardType }) {
   const { values } = useFormikContext();
-  const { fields } = usePaymentMethodFormContext();
-  const selectedCard = _get(values, fields.selectedCard);
+  const selectedCard = _get(values, selectedCardField);
 
   return (
     <table className="w-full text-sm">
@@ -31,7 +30,7 @@ function SavedCards({ detectedCardType }) {
           >
             <td className="pl-2">
               <RadioInput
-                name={fields.selectedCard}
+                name={selectedCardField}
                 checked={selectedCard === paymentConfig.getCardPan(payment)}
                 value={paymentConfig.getCardPan(payment)}
               />
@@ -58,7 +57,7 @@ function SavedCards({ detectedCardType }) {
             <>
               <div className="pl-2">
                 <RadioInput
-                  name={fields.selectedCard}
+                  name={selectedCardField}
                   label="Add new creditcard"
                   checked={selectedCard === 'new'}
                   value="new"
