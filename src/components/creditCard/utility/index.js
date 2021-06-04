@@ -4,7 +4,7 @@ import _set from 'lodash.set';
 import { LOGIN_FORM, PAYMENT_METHOD_FORM } from '../../../../../../config';
 import { __ } from '../../../../../../i18n';
 import LocalStorage from '../../../../../../utils/localStorage';
-import paymentConfig from '../../../utility/paymentConfig';
+import paymentConfig from '../paymentConfig';
 
 export const selectedCardField = `${PAYMENT_METHOD_FORM}.selectedCard`;
 export const additionalDataField = `${PAYMENT_METHOD_FORM}.additional_data`;

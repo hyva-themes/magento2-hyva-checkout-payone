@@ -1,8 +1,8 @@
 import _get from 'lodash.get';
-import { PAYMENT_METHOD_FORM } from '../../../../config';
+import { PAYMENT_METHOD_FORM } from '../../../../../config';
 
-import LocalStorage from '../../../../utils/localStorage';
-import RootElement from '../../../../utils/rootElement';
+import LocalStorage from '../../../../../utils/localStorage';
+import RootElement from '../../../../../utils/rootElement';
 
 const config = RootElement.getPaymentConfig();
 const inputStyles =

@@ -5,7 +5,7 @@ import { useFormikContext } from 'formik';
 
 import CCForm from './CCForm';
 import RadioInput from '../../../../../components/common/Form/RadioInput';
-import paymentConfig from '../../utility/paymentConfig';
+import paymentConfig from './paymentConfig';
 import { selectedCardField } from './utility';
 
 function formatCardExpireDate(expireDate) {

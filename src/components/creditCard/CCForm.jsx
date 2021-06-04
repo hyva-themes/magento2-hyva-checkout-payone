@@ -3,7 +3,7 @@ import { string } from 'prop-types';
 import { useFormikContext } from 'formik';
 
 import CCIframe from './CCIframe';
-import paymentConfig from '../../utility/paymentConfig';
+import paymentConfig from './paymentConfig';
 import { PAYMENT_METHOD_FORM } from '../../../../../config';
 import TextInput from '../../../../../components/common/Form/TextInput';
 import SelectInput from '../../../../../components/common/Form/SelectInput';

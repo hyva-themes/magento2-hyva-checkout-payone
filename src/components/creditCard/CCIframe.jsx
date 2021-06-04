@@ -4,7 +4,7 @@ import _get from 'lodash.get';
 import { useFormikContext } from 'formik';
 
 import Checkbox from '../../../../../components/common/Form/Checkbox';
-import paymentConfig from '../../utility/paymentConfig';
+import paymentConfig from './paymentConfig';
 import { PAYMENT_METHOD_FORM } from '../../../../../config';
 import { __ } from '../../../../../i18n';
 

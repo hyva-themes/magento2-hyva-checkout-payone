@@ -6,7 +6,7 @@ import CCIframe from './CCIframe';
 import SavedCards from './SavedCards';
 import RadioInput from '../../../../../components/common/Form/RadioInput';
 import usePayOneCC from './hooks/usePayOneCC';
-import paymentConfig from '../../utility/paymentConfig';
+import paymentConfig from './paymentConfig';
 import usePayOneCheckoutFormContext from '../../hooks/usePayOneCheckoutFormContext';
 import useCardTypeDetection from './hooks/useCardTypeDetection';
 import usePayOneCCFormInitialize from './hooks/usePayOneCCFomInitialize';

@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 
-import paymentConfig from '../../../utility/paymentConfig';
+import paymentConfig from '../paymentConfig';
 import { __ } from '../../../../../../i18n';
 import LocalStorage from '../../../../../../utils/localStorage';
 import { config } from '../../../../../../config';
