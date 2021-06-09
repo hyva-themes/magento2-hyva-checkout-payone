@@ -3,7 +3,7 @@ import _get from 'lodash.get';
 import { useFormikContext } from 'formik';
 
 import { PAYMENT_METHOD_FORM } from '../../../../../../config';
-import paymentConfig from '../../../utility/paymentConfig';
+import paymentConfig from '../paymentConfig';
 
 const cardTypeField = `${PAYMENT_METHOD_FORM}.additional_data.cardtype`;
 
