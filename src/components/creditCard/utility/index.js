@@ -4,19 +4,19 @@ import _set from 'lodash.set';
 import { LOGIN_FORM, PAYMENT_METHOD_FORM } from '../../../../../../config';
 import { __ } from '../../../../../../i18n';
 import LocalStorage from '../../../../../../utils/localStorage';
-import paymentConfig from '../paymentConfig';
+import creditCardConfig from '../creditCardConfig';
 
-export const selectedCardField = `${PAYMENT_METHOD_FORM}.selectedCard`;
-export const additionalDataField = `${PAYMENT_METHOD_FORM}.additional_data`;
-const cardTypeField = `${PAYMENT_METHOD_FORM}.additional_data.cardtype`;
-const cardHolderField = `${PAYMENT_METHOD_FORM}.additional_data.cardholder`;
+export const selectedCardField = `${PAYMENT_METHOD_FORM}.payone.cc.selectedCard`;
+export const additionalDataField = `${PAYMENT_METHOD_FORM}.payone.cc.additional_data`;
+const cardTypeField = `${PAYMENT_METHOD_FORM}.payone.cc.additional_data.cardtype`;
+const cardHolderField = `${PAYMENT_METHOD_FORM}.payone.cc.additional_data.cardholder`;
 
 export function isInt(value) {
   return value.length > 0 && typeof value === 'number';
 }
 
 export function isMinValidityCorrect(sExpireDate) {
-  if (isInt(paymentConfig.ccMinValidity)) {
+  if (isInt(creditCardConfig.ccMinValidity)) {
     const oExpireDate = new Date(
       parseInt(`20${parseInt(sExpireDate.substring(0, 2), 10)}`, 10),
       parseInt(sExpireDate.substring(2, 4), 10),
@@ -30,7 +30,7 @@ export function isMinValidityCorrect(sExpireDate) {
     const oMinValidDate = new Date();
     oMinValidDate.setDate(
       parseInt(oMinValidDate.getDate().toString(), 10) +
-        parseInt(paymentConfig.ccMinValidity, 10)
+        parseInt(creditCardConfig.ccMinValidity, 10)
     );
 
     if (oExpireDate < oMinValidDate) {
@@ -49,7 +49,7 @@ export function isCardholderDataValid(sCardholder) {
 }
 
 export function validate(values) {
-  if (!paymentConfig.isSavedPaymentDataUsed(values)) {
+  if (!creditCardConfig.isSavedPaymentDataUsed(values)) {
     const cardType = _get(values, cardTypeField);
     const cardholder = _get(values, cardHolderField);
 
@@ -100,10 +100,10 @@ export function validate(values) {
 }
 
 function getSelectedSavedCard(values) {
-  const { savedPaymentData = [] } = paymentConfig;
+  const { savedPaymentData = [] } = creditCardConfig;
   const selectedCardPan = _get(values, selectedCardField);
   return savedPaymentData.find(
-    card => paymentConfig.getCardPan(card) === selectedCardPan
+    card => creditCardConfig.getCardPan(card) === selectedCardPan
   );
 }
 

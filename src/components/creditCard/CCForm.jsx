@@ -3,18 +3,18 @@ import { string } from 'prop-types';
 import { useFormikContext } from 'formik';
 
 import CCIframe from './CCIframe';
-import paymentConfig from './paymentConfig';
+import creditCardConfig from './creditCardConfig';
 import { PAYMENT_METHOD_FORM } from '../../../../../config';
 import TextInput from '../../../../../components/common/Form/TextInput';
 import SelectInput from '../../../../../components/common/Form/SelectInput';
 import { __ } from '../../../../../i18n';
 
-const cardTypeOptions = paymentConfig.availableCardTypes.map(
+const cardTypeOptions = creditCardConfig.availableCardTypes.map(
   ({ id, title }) => ({ value: id, label: title })
 );
 
-const cardTypeField = `${PAYMENT_METHOD_FORM}.additional_data.cardtype`;
-const cardHolderField = `${PAYMENT_METHOD_FORM}.additional_data.cardholder`;
+const cardTypeField = `${PAYMENT_METHOD_FORM}.payone.cc.additional_data.cardtype`;
+const cardHolderField = `${PAYMENT_METHOD_FORM}.payone.cc.additional_data.cardholder`;
 
 function CCForm({ detectedCardType }) {
   const { setFieldValue } = useFormikContext();
@@ -28,7 +28,7 @@ function CCForm({ detectedCardType }) {
 
   return (
     <div className="w-full">
-      {!paymentConfig.isAutoCardtypeDetectionEnabled && (
+      {!creditCardConfig.isAutoCardtypeDetectionEnabled && (
         <SelectInput
           label={__('Card Type')}
           name={cardTypeField}

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { func, shape } from 'prop-types';
 import { useFormikContext } from 'formik';
 
@@ -11,6 +11,7 @@ import idealConfig from './idealConfig';
 import { paymentMethodShape } from '../../utility';
 import { PAYMENT_METHOD_FORM } from '../../../../../config';
 import usePayOneCheckoutFormContext from '../../hooks/usePayOneCheckoutFormContext';
+import usePayOneIdeal from './hooks/usePayOneIdeal';
 
 const idealBankGroupField = `${PAYMENT_METHOD_FORM}.payone.ideal.bankGroup`;
 const boniAgreementField = `${PAYMENT_METHOD_FORM}.payone.ideal.boniAgreement`;
@@ -19,16 +20,15 @@ function Ideal({ method, selected, actions }) {
   const { setFieldValue } = useFormikContext();
   const { registerPaymentAction } = usePayOneCheckoutFormContext();
   const isSelected = method.code === selected.code;
-
-  const paymentSubmitHandler = useCallback(async () => {}, []);
+  const { placeOrderWithIdeal } = usePayOneIdeal(method.code);
 
   useEffect(() => {
     setFieldValue(idealBankGroupField, '');
   }, [setFieldValue]);
 
   useEffect(() => {
-    registerPaymentAction(method.code, paymentSubmitHandler);
-  }, [method, registerPaymentAction, paymentSubmitHandler]);
+    registerPaymentAction(method.code, placeOrderWithIdeal);
+  }, [method, registerPaymentAction, placeOrderWithIdeal]);
 
   if (!isSelected) {
     return (

@@ -9,5 +9,6 @@
   "Please provide cardholder information": "Please provide cardholder information",
   "The cardholder information entered is too long.": "The cardholder information entered is too long.",
   "The cardholder information contains invalid characters.": "The cardholder information contains invalid characters.",
-  "This transaction could not be performed. Please select another payment method.": "This transaction could not be performed. Please select another payment method."
+  "This transaction could not be performed. Please select another payment method.": "This transaction could not be performed. Please select another payment method.",
+  "Placing the order encountered some problem. Please try later.": "Placing the order encountered some problem. Please try later."
 }

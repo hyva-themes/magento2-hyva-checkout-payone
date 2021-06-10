@@ -5,7 +5,7 @@ import { useFormikContext } from 'formik';
 
 import CCForm from './CCForm';
 import RadioInput from '../../../../../components/common/Form/RadioInput';
-import paymentConfig from './paymentConfig';
+import creditCardConfig from './creditCardConfig';
 import { selectedCardField } from './utility';
 
 function formatCardExpireDate(expireDate) {
@@ -23,7 +23,7 @@ function SavedCards({ detectedCardType }) {
   return (
     <table className="w-full text-sm">
       <tbody>
-        {paymentConfig.savedPaymentData.map(payment => (
+        {creditCardConfig.savedPaymentData.map(payment => (
           <tr
             key={payment.id}
             className="h-20 bg-white border-t border-gray-400"
@@ -31,8 +31,8 @@ function SavedCards({ detectedCardType }) {
             <td className="pl-2">
               <RadioInput
                 name={selectedCardField}
-                checked={selectedCard === paymentConfig.getCardPan(payment)}
-                value={paymentConfig.getCardPan(payment)}
+                checked={selectedCard === creditCardConfig.getCardPan(payment)}
+                value={creditCardConfig.getCardPan(payment)}
               />
             </td>
             <td>

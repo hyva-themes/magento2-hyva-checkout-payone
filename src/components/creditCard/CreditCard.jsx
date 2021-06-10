@@ -6,13 +6,13 @@ import CCIframe from './CCIframe';
 import SavedCards from './SavedCards';
 import RadioInput from '../../../../../components/common/Form/RadioInput';
 import usePayOneCC from './hooks/usePayOneCC';
-import paymentConfig from './paymentConfig';
+import creditCardConfig from './creditCardConfig';
 import usePayOneCheckoutFormContext from '../../hooks/usePayOneCheckoutFormContext';
 import useCardTypeDetection from './hooks/useCardTypeDetection';
 import usePayOneCCFormInitialize from './hooks/usePayOneCCFomInitialize';
 
 function CreditCard({ method, selected, actions }) {
-  const savedData = paymentConfig.useSavedData();
+  const savedData = creditCardConfig.useSavedData();
   const isSelected = method.code === selected.code;
   const { isFormInitialized, setSelectedCard } = usePayOneCCFormInitialize();
   const { registerPaymentAction } = usePayOneCheckoutFormContext();
@@ -41,8 +41,8 @@ function CreditCard({ method, selected, actions }) {
   useEffect(() => {
     if (isSelected && isFormInitialized) {
       window.iframes = new window.Payone.ClientApi.HostedIFrames(
-        paymentConfig.fieldConfig,
-        paymentConfig.request
+        creditCardConfig.fieldConfig,
+        creditCardConfig.request
       );
       window.iframes.setCardType('V');
     }
@@ -51,10 +51,10 @@ function CreditCard({ method, selected, actions }) {
   // if saved cards available for customer, then should show card list in the content
   useEffect(() => {
     if (isSelected && savedData) {
-      const defaultSavedCard = paymentConfig.getDefaultSavedCard();
+      const defaultSavedCard = creditCardConfig.getDefaultSavedCard();
 
       if (defaultSavedCard) {
-        setSelectedCard(paymentConfig.getCardPan(defaultSavedCard));
+        setSelectedCard(creditCardConfig.getCardPan(defaultSavedCard));
       }
     }
   }, [savedData, isSelected, setSelectedCard]);
