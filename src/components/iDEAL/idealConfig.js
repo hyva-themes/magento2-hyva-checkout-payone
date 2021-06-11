@@ -15,10 +15,10 @@ const consumerScoreEnabledMethods = _get(
   'consumerScoreEnabledMethods',
   []
 );
-const isAgreementVisible = canShowPaymentHintText || canShowAgreementMessage;
 const canShowAgreementMessage =
   canShowAgreementMsg &&
   !consumerScoreEnabledMethods.includes(paymentMethodCode);
+const isAgreementVisible = canShowPaymentHintText || canShowAgreementMessage;
 
 const idealConfig = {
   bankGroupOptions: bankGroups.map(({ id, title }) => ({

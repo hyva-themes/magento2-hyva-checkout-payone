@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 import _get from 'lodash.get';
+import _set from 'lodash.set';
 import { useFormikContext } from 'formik';
 
+import creditCardConfig from '../creditCardConfig';
 import { PAYMENT_METHOD_FORM } from '../../../../../../config';
-import paymentConfig from '../paymentConfig';
 
 const cardTypeField = `${PAYMENT_METHOD_FORM}.additional_data.cardtype`;
 
@@ -12,14 +13,18 @@ export default function useCardTypeDetection() {
   const { setFieldValue } = useFormikContext();
 
   useEffect(() => {
-    if (paymentConfig.fieldConfig.autoCardtypeDetection) {
-      paymentConfig.fieldConfig.autoCardtypeDetection.callback = newCardTypeDetected => {
-        setFieldValue(cardTypeField, newCardTypeDetected.toUpperCase());
-        setCardTypeDetected(newCardTypeDetected.toUpperCase());
-      };
+    if (creditCardConfig.isAutoCardtypeDetectionEnabled) {
+      _set(
+        creditCardConfig,
+        'fieldConfig.autoCardtypeDetection.callback',
+        newCardTypeDetected => {
+          setFieldValue(cardTypeField, newCardTypeDetected.toUpperCase());
+          setCardTypeDetected(newCardTypeDetected.toUpperCase());
+        }
+      );
 
       const initialCardType = _get(
-        paymentConfig,
+        creditCardConfig,
         'fieldConfig.autoCardtypeDetection.supportedCardtypes.0'
       );
 

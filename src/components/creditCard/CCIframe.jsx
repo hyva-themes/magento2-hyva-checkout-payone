@@ -4,18 +4,18 @@ import _get from 'lodash.get';
 import { useFormikContext } from 'formik';
 
 import Checkbox from '../../../../../components/common/Form/Checkbox';
-import paymentConfig from './paymentConfig';
+import creditCardConfig from './creditCardConfig';
 import { PAYMENT_METHOD_FORM } from '../../../../../config';
 import { __ } from '../../../../../i18n';
 
-let { availableCardTypes } = paymentConfig;
-const { isAutoCardtypeDetectionEnabled } = paymentConfig;
+let { availableCardTypes } = creditCardConfig;
+const { isAutoCardtypeDetectionEnabled } = creditCardConfig;
 
 function getCardTypeImageUrl(imageId) {
   return `https://cdn.pay1.de/cc/${imageId}/s/default.png`;
 }
 
-const saveDataField = `${PAYMENT_METHOD_FORM}.additional_data.saveData`;
+const saveDataField = `${PAYMENT_METHOD_FORM}.payone.cc.additional_data.saveData`;
 
 function CCIframe({ detectedCardType }) {
   const { values } = useFormikContext();
@@ -23,7 +23,7 @@ function CCIframe({ detectedCardType }) {
   let detectedCard;
 
   if (isAutoCardtypeDetectionEnabled) {
-    detectedCard = paymentConfig.availableCardTypes.find(
+    detectedCard = creditCardConfig.availableCardTypes.find(
       cardType => cardType.id.toUpperCase() === detectedCardType
     );
 
@@ -64,7 +64,7 @@ function CCIframe({ detectedCardType }) {
         </div>
       </div>
 
-      {paymentConfig.checkCvc && (
+      {creditCardConfig.checkCvc && (
         <div>
           <label htmlFor="cardcvc2" className="md:text-sm">
             {__('Card Verification Number')}
@@ -73,7 +73,7 @@ function CCIframe({ detectedCardType }) {
         </div>
       )}
 
-      {paymentConfig.isSaveDataEnabled() && (
+      {creditCardConfig.isSaveDataEnabled() && (
         <Checkbox
           label={__('Save the payment data for future use.')}
           name={saveDataField}

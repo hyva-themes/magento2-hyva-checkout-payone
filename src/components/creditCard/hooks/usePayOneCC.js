@@ -1,16 +1,16 @@
 import { useCallback } from 'react';
 
-import paymentConfig from '../paymentConfig';
+import usePayOneCartContext from '../../../hooks/usePayOneCartContext';
+import usePayOneAppContext from '../../../hooks/usePayOneAppContext';
+import creditCardConfig from '../creditCardConfig';
 import { __ } from '../../../../../../i18n';
 import LocalStorage from '../../../../../../utils/localStorage';
-import { config } from '../../../../../../config';
 import {
   isMinValidityCorrect,
   prepareSetPaymentMethodData,
   validate,
 } from '../utility';
-import usePayOneCartContext from '../../../hooks/usePayOneCartContext';
-import usePayOneAppContext from '../../../hooks/usePayOneAppContext';
+import { performRedirect } from '../../../utility';
 
 export default function usePayOneCC(paymentMethodCode) {
   const { cartId, setRestPaymentMethod } = usePayOneCartContext();
@@ -27,13 +27,10 @@ export default function usePayOneCC(paymentMethodCode) {
       );
 
       setPageLoader(true);
-      const result = await setRestPaymentMethod(paymentMethod, isLoggedIn);
+      const order = await setRestPaymentMethod(paymentMethod, isLoggedIn);
       setPageLoader(false);
 
-      if (result) {
-        LocalStorage.clearCheckoutStorage();
-        window.location.replace(`${config.baseUrl}/payone/onepage/redirect/`);
-      }
+      performRedirect(order);
     },
     [setRestPaymentMethod, setPageLoader, cartId, paymentMethodCode]
   );
@@ -68,7 +65,7 @@ export default function usePayOneCC(paymentMethodCode) {
         return false;
       }
 
-      if (paymentConfig.isSavedPaymentDataUsed(values)) {
+      if (creditCardConfig.isSavedPaymentDataUsed(values)) {
         await placeOrder({}, values);
         return false;
       }
