@@ -1,16 +1,7 @@
 import _get from 'lodash.get';
-import _set from 'lodash.set';
 
-import { LOGIN_FORM, PAYMENT_METHOD_FORM } from '../../../../../../config';
-import LocalStorage from '../../../../../../utils/localStorage';
 import sofortConfig from '../sofortConfig';
-
-function cleanData(sofortValues) {
-  return {
-    iban: getCleanedNumber(sofortValues.iban),
-    bic: getCleanedNumber(sofortValues.bic),
-  };
-}
+import { PAYMENT_METHOD_FORM } from '../../../../../../config';
 
 function getCleanedNumber(sDirtyNumber) {
   let sCleanedNumber = '';
@@ -30,26 +21,15 @@ function getCleanedNumber(sDirtyNumber) {
   return sCleanedNumber;
 }
 
-export function prepareSetPaymentMethodData(values, cartId, paymentMethodCode) {
-  const sofortValues = sofortConfig.requestIbanBic
+function cleanData(sofortValues) {
+  return {
+    iban: getCleanedNumber(sofortValues.iban),
+    bic: getCleanedNumber(sofortValues.bic),
+  };
+}
+
+export function prepareSetPaymentMethodData(values) {
+  return sofortConfig.requestIbanBic
     ? cleanData(_get(values, `${PAYMENT_METHOD_FORM}.payone.sofort`))
     : {};
-  const email = _get(values, `${LOGIN_FORM}.email`);
-  const isLoggedIn = !!LocalStorage.getCustomerToken();
-
-  const paymentMethod = {
-    paymentMethod: {
-      method: paymentMethodCode,
-      additional_data: { ...sofortValues },
-      extension_attributes: { agreement_ids: ['1', '2'] },
-    },
-  };
-
-  if (isLoggedIn) {
-    _set(paymentMethod, 'cartId', cartId);
-  } else {
-    _set(paymentMethod, 'email', email);
-  }
-
-  return paymentMethod;
 }

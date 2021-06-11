@@ -1,38 +1,26 @@
 import { useCallback } from 'react';
 
-import usePayOneCartContext from '../../../hooks/usePayOneCartContext';
 import usePayOneAppContext from '../../../hooks/usePayOneAppContext';
+import usePerformPlaceOrder from '../../../hooks/usePerformPlaceOrder';
 import creditCardConfig from '../creditCardConfig';
 import { __ } from '../../../../../../i18n';
-import LocalStorage from '../../../../../../utils/localStorage';
 import {
   isMinValidityCorrect,
   prepareSetPaymentMethodData,
   validate,
 } from '../utility';
-import { performRedirect } from '../../../utility';
 
 export default function usePayOneCC(paymentMethodCode) {
-  const { cartId, setRestPaymentMethod } = usePayOneCartContext();
   const { setErrorMessage, setPageLoader } = usePayOneAppContext();
+  const performPlaceOrder = usePerformPlaceOrder(paymentMethodCode);
 
   const placeOrder = useCallback(
     async (response, values) => {
-      const isLoggedIn = !!LocalStorage.getCustomerToken();
-      const paymentMethod = prepareSetPaymentMethodData(
-        response,
-        values,
-        cartId,
-        paymentMethodCode
-      );
+      const paymentMethodData = prepareSetPaymentMethodData(response, values);
 
-      setPageLoader(true);
-      const order = await setRestPaymentMethod(paymentMethod, isLoggedIn);
-      setPageLoader(false);
-
-      performRedirect(order);
+      await performPlaceOrder(values, paymentMethodData);
     },
-    [setRestPaymentMethod, setPageLoader, cartId, paymentMethodCode]
+    [performPlaceOrder]
   );
 
   const processPayoneResponseCCHosted = useCallback(
