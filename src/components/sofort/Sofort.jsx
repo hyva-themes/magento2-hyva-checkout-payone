@@ -1,29 +1,27 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { func, shape } from 'prop-types';
 import { useFormikContext } from 'formik';
-import RadioInput from '../../../../../components/common/Form/RadioInput';
-import { paymentMethodShape } from '../../utility';
-import usePayOneCheckoutFormContext from '../../hooks/usePayOneCheckoutFormContext';
-import usePayoneSofort from './hooks/usePayoneSofort';
+
 import Card from '../../../../../components/common/Card';
-import sofortConfig from './sofortConfig';
 import Checkbox from '../../../../../components/common/Form/Checkbox';
-import { __ } from '../../../../../i18n';
-import { PAYMENT_METHOD_FORM } from '../../../../../config';
 import TextInput from '../../../../../components/common/Form/TextInput';
+import RadioInput from '../../../../../components/common/Form/RadioInput';
+
+import usePayoneSofort from './hooks/usePayoneSofort';
+import usePayOneCheckoutFormContext from '../../hooks/usePayOneCheckoutFormContext';
+import { __ } from '../../../../../i18n';
+import sofortConfig from './sofortConfig';
+import { paymentMethodShape } from '../../utility';
+import { PAYMENT_METHOD_FORM } from '../../../../../config';
 
 const ibanField = `${PAYMENT_METHOD_FORM}.payone.sofort.iban`;
 const bicField = `${PAYMENT_METHOD_FORM}.payone.sofort.bic`;
 
 function Sofort({ method, selected, actions }) {
+  const { setFieldValue } = useFormikContext();
   const { registerPaymentAction } = usePayOneCheckoutFormContext();
-  const { placeOrder } = usePayoneSofort(method.code);
-  const { values, setFieldValue } = useFormikContext();
+  const { placeOrderWithSofort } = usePayoneSofort(method.code);
   const isSelected = method.code === selected.code;
-
-  const paymentSubmitHandler = useCallback(async () => {
-    await placeOrder(values);
-  }, [values, placeOrder]);
 
   useEffect(() => {
     setFieldValue(ibanField, '');
@@ -31,8 +29,8 @@ function Sofort({ method, selected, actions }) {
   }, [setFieldValue]);
 
   useEffect(() => {
-    registerPaymentAction(method.code, paymentSubmitHandler);
-  }, [method, registerPaymentAction, paymentSubmitHandler]);
+    registerPaymentAction(method.code, placeOrderWithSofort);
+  }, [method, registerPaymentAction, placeOrderWithSofort]);
 
   if (!isSelected) {
     return (

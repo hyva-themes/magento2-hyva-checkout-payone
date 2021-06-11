@@ -1,24 +1,24 @@
 import { useCallback } from 'react';
 import _get from 'lodash.get';
+
+import usePayOneAppContext from '../../../hooks/usePayOneAppContext';
+import usePayOneCartContext from '../../../hooks/usePayOneCartContext';
+import sofortConfig from '../sofortConfig';
+import { __ } from '../../../../../../i18n';
+import { prepareSetPaymentMethodData } from '../utility';
 import LocalStorage from '../../../../../../utils/localStorage';
 import { config, PAYMENT_METHOD_FORM } from '../../../../../../config';
-import usePayOneCartContext from '../../../hooks/usePayOneCartContext';
-import usePayOneAppContext from '../../../hooks/usePayOneAppContext';
-import { prepareSetPaymentMethodData } from '../utility';
-import { __ } from '../../../../../../i18n';
-import sofortConfig from '../sofortConfig';
+
+const sofortField = `${PAYMENT_METHOD_FORM}.payone.sofort`;
 
 export default function usePayoneSofort(paymentMethodCode) {
   const { cartId, setRestPaymentMethod } = usePayOneCartContext();
   const { setPageLoader, setErrorMessage } = usePayOneAppContext();
 
-  const placeOrder = useCallback(
+  const placeOrderWithSofort = useCallback(
     async values => {
       const isLoggedIn = !!LocalStorage.getCustomerToken();
-      const { bic, iban } = _get(
-        values,
-        `${PAYMENT_METHOD_FORM}.payone.sofort`
-      );
+      const { bic, iban } = _get(values, sofortField);
 
       if (sofortConfig.requestIbanBic) {
         if (!bic || bic === '') {
@@ -53,7 +53,11 @@ export default function usePayoneSofort(paymentMethodCode) {
           window.location.replace(`${config.baseUrl}/payone/onepage/redirect/`);
         }
       } else {
-        setErrorMessage(__('Something went wrong.'));
+        setErrorMessage(
+          __(
+            'This transaction could not be performed. Please select another payment method.'
+          )
+        );
       }
     },
     [
@@ -66,6 +70,6 @@ export default function usePayoneSofort(paymentMethodCode) {
   );
 
   return {
-    placeOrder,
+    placeOrderWithSofort,
   };
 }
