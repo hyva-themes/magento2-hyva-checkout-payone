@@ -19,7 +19,7 @@ export default function usePayOneIdeal(paymentMethodCode) {
       try {
         const email = _get(values, `${LOGIN_FORM}.email`);
         const bankGroup = _get(values, idealBankGroupField);
-        const paymentMethod = {
+        const paymentMethodData = {
           paymentMethod: {
             method: paymentMethodCode,
             additional_data: {
@@ -29,17 +29,19 @@ export default function usePayOneIdeal(paymentMethodCode) {
         };
 
         if (!isLoggedIn) {
-          _set(paymentMethod, 'email', email);
+          _set(paymentMethodData, 'email', email);
         }
 
         setPageLoader(true);
-        const order = await setRestPaymentMethod(paymentMethod, isLoggedIn);
+        const order = await setRestPaymentMethod(paymentMethodData, isLoggedIn);
         setPageLoader(false);
         performRedirect(order);
       } catch (error) {
         console.error(error);
         setErrorMessage(
-          __('Placing the order encountered some problem. Please try later.')
+          __(
+            'This transaction could not be performed. Please select another payment method.'
+          )
         );
         setPageLoader(false);
       }
