@@ -3,14 +3,8 @@ import _get from 'lodash.get';
 import RootElement from '../../../../../utils/rootElement';
 
 const paymentMethodCode = 'obt_sofortueberweisung';
-
 const config = RootElement.getPaymentConfig();
 const payOne = _get(config, 'payment.payone');
-console.log(
-  "CHECK IF IS GETTING THE CONFIG OR SHOULD REMOVE 'payment.'",
-  _get(payOne, 'requestIbanBicSofortUeberweisung'),
-  config
-);
 
 const sofortConfig = {
   instructions: _get(config, `instructions.${paymentMethodCode}`, ''),

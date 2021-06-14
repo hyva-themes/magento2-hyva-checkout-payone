@@ -1,7 +1,7 @@
 import _get from 'lodash.get';
 import _set from 'lodash.set';
 
-import { LOGIN_FORM, PAYMENT_METHOD_FORM } from '../../../../../../config';
+import { PAYMENT_METHOD_FORM } from '../../../../../../config';
 import { __ } from '../../../../../../i18n';
 import LocalStorage from '../../../../../../utils/localStorage';
 import creditCardConfig from '../creditCardConfig';
@@ -107,13 +107,7 @@ function getSelectedSavedCard(values) {
   );
 }
 
-export function prepareSetPaymentMethodData(
-  response,
-  values,
-  cartId,
-  paymentMethodCode
-) {
-  const email = _get(values, `${LOGIN_FORM}.email`);
+export function prepareSetPaymentMethodData(response, values) {
   const payment = _get(values, PAYMENT_METHOD_FORM);
   const cardholder = _get(payment, 'additional_data.cardholder');
   const saveData = Number(!!_get(payment, 'additional_data.saveData'));
@@ -126,35 +120,25 @@ export function prepareSetPaymentMethodData(
     cardexpiredate,
   } = response;
 
-  const paymentMethod = {
-    paymentMethod: {
-      method: paymentMethodCode,
-      additional_data: {
-        cardholder,
-        truncatedcardpan,
-        pseudocardpan,
-        cardtype,
-        cardexpiredate,
-      },
-    },
+  let additionalData = {
+    cardholder,
+    truncatedcardpan,
+    pseudocardpan,
+    cardtype,
+    cardexpiredate,
   };
 
   if (isLoggedIn) {
-    const additionalData = 'paymentMethod.additional_data';
-
     if (selectedCardPan !== 'new') {
       const selectedSavedCard = getSelectedSavedCard(values);
       if (selectedSavedCard && selectedSavedCard.payment_data) {
-        _set(paymentMethod, additionalData, selectedSavedCard.payment_data);
+        additionalData = selectedSavedCard.payment_data;
       }
     }
-    _set(paymentMethod, 'cartId', cartId);
-    _set(paymentMethod, `${additionalData}.saveData`, saveData);
-    _set(paymentMethod, `${additionalData}.cardholder`, cardholder);
-    _set(paymentMethod, `${additionalData}.selectedData`, selectedCardPan);
-  } else {
-    _set(paymentMethod, 'email', email);
+    _set(additionalData, `saveData`, saveData);
+    _set(additionalData, `cardholder`, cardholder);
+    _set(additionalData, `selectedData`, selectedCardPan);
   }
 
-  return paymentMethod;
+  return additionalData;
 }

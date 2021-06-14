@@ -1,23 +1,21 @@
 import { useCallback } from 'react';
 import _get from 'lodash.get';
 
-import usePayOneAppContext from '../../../hooks/usePayOneAppContext';
-import usePayOneCartContext from '../../../hooks/usePayOneCartContext';
 import sofortConfig from '../sofortConfig';
 import { __ } from '../../../../../../i18n';
 import { prepareSetPaymentMethodData } from '../utility';
-import LocalStorage from '../../../../../../utils/localStorage';
-import { config, PAYMENT_METHOD_FORM } from '../../../../../../config';
+import { PAYMENT_METHOD_FORM } from '../../../../../../config';
+import usePayOneAppContext from '../../../hooks/usePayOneAppContext';
+import usePerformPlaceOrder from '../../../hooks/usePerformPlaceOrder';
 
 const sofortField = `${PAYMENT_METHOD_FORM}.payone.sofort`;
 
 export default function usePayoneSofort(paymentMethodCode) {
-  const { cartId, setRestPaymentMethod } = usePayOneCartContext();
-  const { setPageLoader, setErrorMessage } = usePayOneAppContext();
+  const { setErrorMessage } = usePayOneAppContext();
+  const performPlaceOrder = usePerformPlaceOrder(paymentMethodCode);
 
   const placeOrderWithSofort = useCallback(
     async values => {
-      const isLoggedIn = !!LocalStorage.getCustomerToken();
       const { bic, iban } = _get(values, sofortField);
 
       if (sofortConfig.requestIbanBic) {
@@ -32,41 +30,12 @@ export default function usePayoneSofort(paymentMethodCode) {
         }
       }
 
-      const paymentMethod = prepareSetPaymentMethodData(
-        values,
-        cartId,
-        paymentMethodCode
-      );
+      const extensionAttributes = { agreement_ids: ['1', '2'] };
+      const additionalData = prepareSetPaymentMethodData(values);
 
-      setPageLoader(true);
-      const result = await setRestPaymentMethod(paymentMethod, isLoggedIn);
-      setPageLoader(false);
-
-      if (result) {
-        if (result.order_number.message) {
-          setErrorMessage(__(_get(result, 'order_number.message')));
-          return;
-        }
-
-        if (result.order_number) {
-          LocalStorage.clearCheckoutStorage();
-          window.location.replace(`${config.baseUrl}/payone/onepage/redirect/`);
-        }
-      } else {
-        setErrorMessage(
-          __(
-            'This transaction could not be performed. Please select another payment method.'
-          )
-        );
-      }
+      await performPlaceOrder(values, additionalData, extensionAttributes);
     },
-    [
-      setRestPaymentMethod,
-      cartId,
-      setPageLoader,
-      paymentMethodCode,
-      setErrorMessage,
-    ]
+    [performPlaceOrder, setErrorMessage]
   );
 
   return {
