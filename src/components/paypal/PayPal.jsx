@@ -1,21 +1,26 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { func, shape } from 'prop-types';
 
-import RadioInput from '../../../../../components/common/Form/RadioInput';
-import usePayOnePayPal from './hooks/usePayOnePayPal';
-import usePayOneCheckoutFormContext from '../../hooks/usePayOneCheckoutFormContext';
-import { paymentMethodShape } from '../../utility';
-import paypalConfig from './paypalConfig';
-import { PAYMENT_METHOD_FORM } from '../../../../../config';
 import Checkbox from '../../../../../components/common/Form/Checkbox';
+import RadioInput from '../../../../../components/common/Form/RadioInput';
+import usePerformPlaceOrder from '../../hooks/usePerformPlaceOrder';
+import usePayOneCheckoutFormContext from '../../hooks/usePayOneCheckoutFormContext';
 import { __ } from '../../../../../i18n';
+import payPalConfig from './paypalConfig';
+import { paymentMethodShape } from '../../utility';
+import { PAYMENT_METHOD_FORM } from '../../../../../config';
 
 const boniAgreementField = `${PAYMENT_METHOD_FORM}.payone.paypal.boniAgreement`;
 
 function PayPal({ method, selected, actions }) {
   const { registerPaymentAction } = usePayOneCheckoutFormContext();
   const isSelected = method.code === selected.code;
-  const placeOrderWithPayPal = usePayOnePayPal(method.code);
+  const performPlaceOrder = usePerformPlaceOrder(method.code);
+
+  const placeOrderWithPayPal = useCallback(
+    values => performPlaceOrder(values),
+    [performPlaceOrder]
+  );
 
   useEffect(() => {
     registerPaymentAction(method.code, placeOrderWithPayPal);
@@ -45,12 +50,12 @@ function PayPal({ method, selected, actions }) {
         />
       </div>
       <div>
-        {paypalConfig.instructions && <p>{paypalConfig.instructions}</p>}
-        {paypalConfig.canShowBoniAgreement && (
+        {payPalConfig.instructions && <p>{payPalConfig.instructions}</p>}
+        {payPalConfig.canShowBoniAgreement && (
           <div>
             <Checkbox
               name={boniAgreementField}
-              label={__(paypalConfig.agreementMessage)}
+              label={__(payPalConfig.agreementMessage)}
             />
           </div>
         )}
