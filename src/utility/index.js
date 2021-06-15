@@ -5,8 +5,8 @@ import { config } from '../../../../config';
 import LocalStorage from '../../../../utils/localStorage';
 
 export const paymentMethodShape = shape({
-  title: string.isRequired,
-  code: string.isRequired,
+  title: string,
+  code: string,
 });
 
 export function performRedirect(order) {

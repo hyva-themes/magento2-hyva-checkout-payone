@@ -18,9 +18,9 @@ const boniAgreementField = `${PAYMENT_METHOD_FORM}.payone.ideal.boniAgreement`;
 
 function Ideal({ method, selected, actions }) {
   const { setFieldValue } = useFormikContext();
+  const { placeOrderWithIdeal } = usePayOneIdeal(method.code);
   const { registerPaymentAction } = usePayOneCheckoutFormContext();
   const isSelected = method.code === selected.code;
-  const { placeOrderWithIdeal } = usePayOneIdeal(method.code);
 
   useEffect(() => {
     setFieldValue(idealBankGroupField, '');
@@ -63,7 +63,9 @@ function Ideal({ method, selected, actions }) {
             />
           </div>
           <div>
-            {idealConfig.instructions && <p>{idealConfig.instructions}</p>}
+            {idealConfig.instructions && (
+              <p className="mt-4]">{idealConfig.instructions}</p>
+            )}
             {idealConfig.canShowPaymentText && (
               <div>
                 <strong>

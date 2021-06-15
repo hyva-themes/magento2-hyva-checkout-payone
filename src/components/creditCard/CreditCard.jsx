@@ -1,15 +1,16 @@
 import React, { useCallback, useEffect } from 'react';
-import { func, shape, string } from 'prop-types';
+import { func, shape } from 'prop-types';
 
 import CCForm from './CCForm';
 import CCIframe from './CCIframe';
 import SavedCards from './SavedCards';
 import RadioInput from '../../../../../components/common/Form/RadioInput';
 import usePayOneCC from './hooks/usePayOneCC';
-import creditCardConfig from './creditCardConfig';
-import usePayOneCheckoutFormContext from '../../hooks/usePayOneCheckoutFormContext';
 import useCardTypeDetection from './hooks/useCardTypeDetection';
 import usePayOneCCFormInitialize from './hooks/usePayOneCCFomInitialize';
+import usePayOneCheckoutFormContext from '../../hooks/usePayOneCheckoutFormContext';
+import creditCardConfig from './creditCardConfig';
+import { paymentMethodShape } from '../../utility';
 
 function CreditCard({ method, selected, actions }) {
   const savedData = creditCardConfig.useSavedData();
@@ -109,14 +110,9 @@ function CreditCard({ method, selected, actions }) {
   );
 }
 
-const methodShape = shape({
-  title: string.isRequired,
-  code: string.isRequired,
-});
-
 CreditCard.propTypes = {
-  method: methodShape.isRequired,
-  selected: methodShape.isRequired,
+  method: paymentMethodShape.isRequired,
+  selected: paymentMethodShape.isRequired,
   actions: shape({ change: func }),
 };
 

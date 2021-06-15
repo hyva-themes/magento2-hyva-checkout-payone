@@ -1,31 +1,49 @@
 import React, { useCallback, useEffect } from 'react';
 import { func, shape } from 'prop-types';
+import _get from 'lodash.get';
 import { useFormikContext } from 'formik';
 
 import Card from '../../../../../components/common/Card';
 import TextInput from '../../../../../components/common/Form/TextInput';
 import Checkbox from '../../../../../components/common/Form/Checkbox';
 import RadioInput from '../../../../../components/common/Form/RadioInput';
+import usePayOneAppContext from '../../hooks/usePayOneAppContext';
+import usePerformPlaceOrder from '../../hooks/usePerformPlaceOrder';
 import usePayOneCheckoutFormContext from '../../hooks/usePayOneCheckoutFormContext';
 import { __ } from '../../../../../i18n';
 import giroPayConfig from './giroPayConfig';
 import { paymentMethodShape } from '../../utility';
 import { PAYMENT_METHOD_FORM } from '../../../../../config';
-import usePerformPlaceOrder from '../../hooks/usePerformPlaceOrder';
 
-const bicField = `${PAYMENT_METHOD_FORM}.payone.giropay.bic`;
-const ibanField = `${PAYMENT_METHOD_FORM}.payone.giropay.iban`;
+const giroPayField = `${PAYMENT_METHOD_FORM}.payone.giropay`;
+const bicField = `${giroPayField}.bic`;
+const ibanField = `${giroPayField}.iban`;
 const boniAgreementField = `${PAYMENT_METHOD_FORM}.payone.giropay.boniAgreement`;
 
 function GiroPay({ method, selected, actions }) {
   const { setFieldValue } = useFormikContext();
+  const { setErrorMessage } = usePayOneAppContext();
   const { registerPaymentAction } = usePayOneCheckoutFormContext();
-  const isSelected = method.code === selected.code;
   const performPlaceOrder = usePerformPlaceOrder(method.code);
+  const isSelected = method.code === selected.code;
 
   const placeOrderWithGiroPay = useCallback(
-    values => performPlaceOrder(values),
-    [performPlaceOrder]
+    async values => {
+      const { bic, iban } = _get(values, giroPayField);
+
+      if (!bic) {
+        setErrorMessage(__('Please enter a valid BIC.'));
+        return;
+      }
+
+      if (!iban) {
+        setErrorMessage(__('Please enter a valid IBAN.'));
+        return;
+      }
+
+      await performPlaceOrder(values);
+    },
+    [performPlaceOrder, setErrorMessage]
   );
 
   useEffect(() => {
@@ -68,14 +86,14 @@ function GiroPay({ method, selected, actions }) {
             {giroPayConfig.instructions && (
               <p className="mt-4">{giroPayConfig.instructions}</p>
             )}
-            {giroPayConfig.paymentHintText && (
+            {giroPayConfig.canShowPaymentText && (
               <div className="mt-4">
                 <strong>
                   <span>{giroPayConfig.paymentHintText}</span>
                 </strong>
               </div>
             )}
-            {giroPayConfig.agreementMessage && (
+            {giroPayConfig.canShowBoniAgreement && (
               <div>
                 <Checkbox
                   name={boniAgreementField}
