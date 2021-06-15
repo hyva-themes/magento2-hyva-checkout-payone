@@ -4,12 +4,15 @@ import { func, shape } from 'prop-types';
 import Card from '../../../../../components/common/Card';
 import Checkbox from '../../../../../components/common/Form/Checkbox';
 import RadioInput from '../../../../../components/common/Form/RadioInput';
+import usePayOneAppContext from '../../hooks/usePayOneAppContext';
 import usePerformPlaceOrder from '../../hooks/usePerformPlaceOrder';
 import usePayOneCheckoutFormContext from '../../hooks/usePayOneCheckoutFormContext';
 import { __ } from '../../../../../i18n';
 import payDirektConfig from './payDirektConfig';
 import { paymentMethodShape } from '../../utility';
+import { redirectToOneKlickController } from './utility';
 import { PAYMENT_METHOD_FORM } from '../../../../../config';
+import Button from '../../../../../components/common/Button';
 
 const {
   instructions,
@@ -20,6 +23,7 @@ const {
 const boniAgreementField = `${PAYMENT_METHOD_FORM}.payone.paydirekt.boniAgreement`;
 
 function PayDirekt({ method, selected, actions }) {
+  const { isLoggedIn } = usePayOneAppContext();
   const { registerPaymentAction } = usePayOneCheckoutFormContext();
   const isSelected = method.code === selected.code;
   const performPlaceOrder = usePerformPlaceOrder(method.code);
@@ -73,6 +77,11 @@ function PayDirekt({ method, selected, actions }) {
                     label={__(payDirektConfig.agreementMessage)}
                   />
                 </div>
+              )}
+              {payDirektConfig.isPayDirektOnKlickEnabled && isLoggedIn && (
+                <Button click={redirectToOneKlickController}>
+                  {__('Register for paydirekt oneKlick')}
+                </Button>
               )}
             </Card>
           </div>
