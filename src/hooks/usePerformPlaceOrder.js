@@ -1,11 +1,12 @@
+import { useCallback } from 'react';
 import _get from 'lodash.get';
 import _set from 'lodash.set';
-import { useCallback } from 'react';
-import { performRedirect } from '../utility';
-import { LOGIN_FORM } from '../../../../config';
-import { __ } from '../../../../i18n';
+
 import usePayOneAppContext from './usePayOneAppContext';
 import usePayOneCartContext from './usePayOneCartContext';
+import { __ } from '../../../../i18n';
+import { performRedirect } from '../utility';
+import { LOGIN_FORM } from '../../../../config';
 
 export default function usePerformPlaceOrder(paymentMethodCode) {
   const { isLoggedIn, setErrorMessage, setPageLoader } = usePayOneAppContext();
