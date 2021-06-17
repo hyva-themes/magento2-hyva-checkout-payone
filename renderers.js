@@ -5,7 +5,6 @@ import PayPal from './src/components/paypal';
 import GiroPay from './src/components/giropay';
 import PayDirekt from './src/components/paydirekt';
 import CreditCard from './src/components/creditCard';
-import AdvancePayment from './src/components/advancePayment';
 
 export default {
   payone_obt_eps: EPS,
@@ -15,5 +14,4 @@ export default {
   payone_paydirekt: PayDirekt,
   payone_creditcard: CreditCard,
   payone_obt_sofortueberweisung: Sofort,
-  payone_advance_payment: AdvancePayment,
 };
