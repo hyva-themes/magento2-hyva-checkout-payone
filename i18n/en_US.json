@@ -1,17 +1,20 @@
 {
+  "Bank country": "Bank country",
+  "BIC": "BIC",
   "Card Type": "Card Type",
+  "Card Verification Number": "Card Verification Number",
   "Credit Card Number": "Credit Card Number",
   "Expiration Date": "Expiration Date",
-  "Card Verification Number": "Card Verification Number",
-  "Save the payment data for future use.": "Save the payment data for future use.",
+  "IBAN": "IBAN",
   "Invalid expiration date.": "Invalid expiration date.",
+  "Placing the order encountered some problem. Please try later.": "Placing the order encountered some problem. Please try later.",
   "Please choose the credit card type.": "Please choose the credit card type.",
-  "Please provide cardholder information": "Please provide cardholder information",
-  "The cardholder information entered is too long.": "The cardholder information entered is too long.",
-  "The cardholder information contains invalid characters.": "The cardholder information contains invalid characters.",
-  "This transaction could not be performed. Please select another payment method.": "This transaction could not be performed. Please select another payment method.",
   "Please enter a valid BIC.": "Please enter a valid BIC.",
   "Please enter a valid IBAN.": "Please enter a valid IBAN.",
-  "Placing the order encountered some problem. Please try later.": "Placing the order encountered some problem. Please try later.",
-  "Register for paydirekt oneKlick": "Register for paydirekt oneKlick"
+  "Please provide cardholder information": "Please provide cardholder information",
+  "Register for paydirekt oneKlick": "Register for paydirekt oneKlick",
+  "Save the payment data for future use.": "Save the payment data for future use.",
+  "The cardholder information contains invalid characters.": "The cardholder information contains invalid characters.",
+  "The cardholder information entered is too long.": "The cardholder information entered is too long.",
+  "This transaction could not be performed. Please select another payment method.": "This transaction could not be performed. Please select another payment method."
 }

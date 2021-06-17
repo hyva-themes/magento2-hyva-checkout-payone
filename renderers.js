@@ -1,5 +1,6 @@
 import EPS from './src/components/eps';
 import Ideal from './src/components/iDEAL';
+import Debit from './src/components/debit';
 import Sofort from './src/components/sofort';
 import PayPal from './src/components/paypal';
 import GiroPay from './src/components/giropay';
@@ -8,6 +9,7 @@ import CreditCard from './src/components/creditCard';
 
 export default {
   payone_obt_eps: EPS,
+  payone_debit: Debit,
   payone_paypal: PayPal,
   payone_obt_ideal: Ideal,
   payone_obt_giropay: GiroPay,
