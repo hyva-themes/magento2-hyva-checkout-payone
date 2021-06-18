@@ -4,31 +4,33 @@ import { useFormikContext } from 'formik';
 
 import Card from '../../../../../components/common/Card';
 import Checkbox from '../../../../../components/common/Form/Checkbox';
+import TextInput from '../../../../../components/common/Form/TextInput';
 import RadioInput from '../../../../../components/common/Form/RadioInput';
 import SelectInput from '../../../../../components/common/Form/SelectInput';
-import { __ } from '../../../../../i18n';
-import idealConfig from './idealConfig';
-import { paymentMethodShape } from '../../utility';
-import { PAYMENT_METHOD_FORM } from '../../../../../config';
+import usePayOneDebit from './hooks/usePayOneDebit';
 import usePayOneCheckoutFormContext from '../../hooks/usePayOneCheckoutFormContext';
-import usePayOneIdeal from './hooks/usePayOneIdeal';
+import debitConfig from './debitConfig';
+import { __ } from '../../../../../i18n';
+import { paymentMethodShape } from '../../utility';
+import { bicField, debitCountryField, debitField, ibanField } from './utility';
 
-const idealBankGroupField = `${PAYMENT_METHOD_FORM}.payone.ideal.bankGroup`;
-const boniAgreementField = `${PAYMENT_METHOD_FORM}.payone.ideal.boniAgreement`;
+const boniAgreementField = `${debitField}.boniAgreement`;
 
-function Ideal({ method, selected, actions }) {
+function Debit({ method, selected, actions }) {
   const { setFieldValue } = useFormikContext();
-  const { placeOrderWithIdeal } = usePayOneIdeal(method.code);
+  const placeOrderWithDebit = usePayOneDebit(method.code);
   const { registerPaymentAction } = usePayOneCheckoutFormContext();
   const isSelected = method.code === selected.code;
 
   useEffect(() => {
-    setFieldValue(idealBankGroupField, '');
+    setFieldValue(ibanField, '');
+    setFieldValue(debitField, '');
+    setFieldValue(debitCountryField, '');
   }, [setFieldValue]);
 
   useEffect(() => {
-    registerPaymentAction(method.code, placeOrderWithIdeal);
-  }, [method, registerPaymentAction, placeOrderWithIdeal]);
+    registerPaymentAction(method.code, placeOrderWithDebit);
+  }, [method, registerPaymentAction, placeOrderWithDebit]);
 
   if (!isSelected) {
     return (
@@ -56,28 +58,34 @@ function Ideal({ method, selected, actions }) {
       <div className="mx-4 my-4">
         <Card bg="white">
           <div>
-            <SelectInput
-              label={__('Bank group')}
-              name={idealBankGroupField}
-              options={idealConfig.bankGroupOptions}
-            />
+            <fieldset>
+              <SelectInput
+                label={__('Bank country')}
+                name={debitCountryField}
+                options={debitConfig.getCountryList}
+              />
+              <TextInput label={__('IBAN')} name={ibanField} />
+              {debitConfig.requestBic && (
+                <TextInput label={__('BIC')} name={bicField} />
+              )}
+            </fieldset>
           </div>
           <div>
-            {idealConfig.instructions && (
-              <p className="mt-4">{idealConfig.instructions}</p>
+            {debitConfig.instructions && (
+              <p className="mt-4">{debitConfig.instructions}</p>
             )}
-            {idealConfig.canShowPaymentText && (
+            {debitConfig.canShowPaymentText && (
               <div>
                 <strong>
-                  <span>{idealConfig.paymentHintText}</span>
+                  <span>{debitConfig.paymentHintText}</span>
                 </strong>
               </div>
             )}
-            {idealConfig.canShowBoniAgreement && (
+            {debitConfig.canShowBoniAgreement && (
               <div>
                 <Checkbox
                   name={boniAgreementField}
-                  label={__(idealConfig.agreementMessage)}
+                  label={__(debitConfig.agreementMessage)}
                 />
               </div>
             )}
@@ -88,10 +96,10 @@ function Ideal({ method, selected, actions }) {
   );
 }
 
-Ideal.propTypes = {
+Debit.propTypes = {
   method: paymentMethodShape.isRequired,
   selected: paymentMethodShape.isRequired,
   actions: shape({ change: func }),
 };
 
-export default Ideal;
+export default Debit;
