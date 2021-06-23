@@ -36,11 +36,11 @@ function Invoice({ method, selected, actions }) {
   if (!isSelected) {
     return (
       <RadioInput
+        value={method.code}
         label={method.title}
         name="paymentMethod"
-        value={method.code}
-        onChange={actions.change}
         checked={isSelected}
+        onChange={actions.change}
       />
     );
   }
@@ -49,11 +49,11 @@ function Invoice({ method, selected, actions }) {
     <div>
       <div>
         <RadioInput
+          value={method.code}
           label={method.title}
           name="paymentMethod"
-          value={method.code}
-          onChange={actions.change}
           checked={isSelected}
+          onChange={actions.change}
         />
         {(instructions || canShowPaymentText || canShowBoniAgreement) && (
           <div className="mx-4 my-4">
