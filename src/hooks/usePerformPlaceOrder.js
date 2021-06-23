@@ -2,15 +2,15 @@ import { useCallback } from 'react';
 import _get from 'lodash.get';
 import _set from 'lodash.set';
 
-import usePayOneAppContext from './usePayOneAppContext';
-import usePayOneCartContext from './usePayOneCartContext';
 import { __ } from '../../../../i18n';
 import { performRedirect } from '../utility';
 import { LOGIN_FORM } from '../../../../config';
+import usePayOneAppContext from './usePayOneAppContext';
+import usePayOneCartContext from './usePayOneCartContext';
 
 export default function usePerformPlaceOrder(paymentMethodCode) {
+  const { cartId, setRestPaymentMethod, setOrderInfo } = usePayOneCartContext();
   const { isLoggedIn, setErrorMessage, setPageLoader } = usePayOneAppContext();
-  const { cartId, setRestPaymentMethod } = usePayOneCartContext();
 
   return useCallback(
     async (values, additionalData, extensionAttributes) => {
@@ -41,6 +41,10 @@ export default function usePerformPlaceOrder(paymentMethodCode) {
         const order = await setRestPaymentMethod(paymentMethodData, isLoggedIn);
         setPageLoader(false);
         performRedirect(order);
+
+        if (order) {
+          setOrderInfo(order);
+        }
       } catch (error) {
         console.error(error);
         setErrorMessage(
@@ -52,12 +56,13 @@ export default function usePerformPlaceOrder(paymentMethodCode) {
       }
     },
     [
-      paymentMethodCode,
       cartId,
       isLoggedIn,
+      setOrderInfo,
       setPageLoader,
-      setRestPaymentMethod,
       setErrorMessage,
+      paymentMethodCode,
+      setRestPaymentMethod,
     ]
   );
 }
