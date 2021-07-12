@@ -1,23 +1,23 @@
 import React, { useEffect } from 'react';
 import { func, shape } from 'prop-types';
-import { useFormikContext } from 'formik';
 
 import Card from '../../../../../components/common/Card';
 import Checkbox from '../../../../../components/common/Form/Checkbox';
 import RadioInput from '../../../../../components/common/Form/RadioInput';
 import SelectInput from '../../../../../components/common/Form/SelectInput';
-import usePayOneEPS from './hooks/usePayOneEPS';
-import usePayOneCheckoutFormContext from '../../hooks/usePayOneCheckoutFormContext';
 import epsConfig from './epsConfig';
 import { __ } from '../../../../../i18n';
+import usePayOneEPS from './hooks/usePayOneEPS';
 import { paymentMethodShape } from '../../utility';
 import { PAYMENT_METHOD_FORM } from '../../../../../config';
+import usePayOneCheckoutFormContext from '../../hooks/usePayOneCheckoutFormContext';
+import usePayOnePaymentMethodContext from '../../hooks/usePayOnePaymentMethodContext';
 
 const epsBankGroupField = `${PAYMENT_METHOD_FORM}.payone.eps.bankGroup`;
 const boniAgreementField = `${PAYMENT_METHOD_FORM}.payone.eps.boniAgreement`;
 
 function EPS({ method, selected, actions }) {
-  const { setFieldValue } = useFormikContext();
+  const { formikData, setFieldValue } = usePayOnePaymentMethodContext();
   const { placeOrderWithEPS } = usePayOneEPS(method.code);
   const { registerPaymentAction } = usePayOneCheckoutFormContext();
   const isSelected = method.code === selected.code;
@@ -33,11 +33,12 @@ function EPS({ method, selected, actions }) {
   if (!isSelected) {
     return (
       <RadioInput
+        value={method.code}
         label={method.title}
         name="paymentMethod"
-        value={method.code}
-        onChange={actions.change}
         checked={isSelected}
+        formikData={formikData}
+        onChange={actions.change}
       />
     );
   }
@@ -46,17 +47,19 @@ function EPS({ method, selected, actions }) {
     <div>
       <div>
         <RadioInput
+          value={method.code}
           label={method.title}
           name="paymentMethod"
-          value={method.code}
-          onChange={actions.change}
           checked={isSelected}
+          formikData={formikData}
+          onChange={actions.change}
         />
       </div>
       <div className="mx-4 my-4">
-        <Card bg="white">
-          <div>
+        <Card bg="darker">
+          <div className="container flex flex-col justify-center w-4/5">
             <SelectInput
+              formikData={formikData}
               label={__('Bank group')}
               name={epsBankGroupField}
               options={epsConfig.bankGroupOptions}
@@ -76,6 +79,7 @@ function EPS({ method, selected, actions }) {
             {epsConfig.canShowBoniAgreement && (
               <div>
                 <Checkbox
+                  formikData={formikData}
                   name={boniAgreementField}
                   label={__(epsConfig.agreementMessage)}
                 />

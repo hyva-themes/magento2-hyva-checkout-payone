@@ -1,19 +1,19 @@
 import React, { useCallback, useEffect } from 'react';
-import { func, shape } from 'prop-types';
 import _get from 'lodash.get';
-import { useFormikContext } from 'formik';
+import { func, shape } from 'prop-types';
 
 import Card from '../../../../../components/common/Card';
 import TextInput from '../../../../../components/common/Form/TextInput';
 import Checkbox from '../../../../../components/common/Form/Checkbox';
 import RadioInput from '../../../../../components/common/Form/RadioInput';
-import usePayOneAppContext from '../../hooks/usePayOneAppContext';
-import usePerformPlaceOrder from '../../hooks/usePerformPlaceOrder';
-import usePayOneCheckoutFormContext from '../../hooks/usePayOneCheckoutFormContext';
 import { __ } from '../../../../../i18n';
 import giroPayConfig from './giroPayConfig';
 import { paymentMethodShape } from '../../utility';
 import { PAYMENT_METHOD_FORM } from '../../../../../config';
+import usePayOneAppContext from '../../hooks/usePayOneAppContext';
+import usePerformPlaceOrder from '../../hooks/usePerformPlaceOrder';
+import usePayOneCheckoutFormContext from '../../hooks/usePayOneCheckoutFormContext';
+import usePayOnePaymentMethodContext from '../../hooks/usePayOnePaymentMethodContext';
 
 const giroPayField = `${PAYMENT_METHOD_FORM}.payone.giropay`;
 const bicField = `${giroPayField}.bic`;
@@ -21,7 +21,7 @@ const ibanField = `${giroPayField}.iban`;
 const boniAgreementField = `${PAYMENT_METHOD_FORM}.payone.giropay.boniAgreement`;
 
 function GiroPay({ method, selected, actions }) {
-  const { setFieldValue } = useFormikContext();
+  const { setFieldValue, formikData } = usePayOnePaymentMethodContext();
   const { setErrorMessage } = usePayOneAppContext();
   const { registerPaymentAction } = usePayOneCheckoutFormContext();
   const performPlaceOrder = usePerformPlaceOrder(method.code);
@@ -41,7 +41,7 @@ function GiroPay({ method, selected, actions }) {
         return;
       }
 
-      await performPlaceOrder(values);
+      await performPlaceOrder(values, { bic, iban });
     },
     [performPlaceOrder, setErrorMessage]
   );
@@ -55,52 +55,65 @@ function GiroPay({ method, selected, actions }) {
     registerPaymentAction(method.code, placeOrderWithGiroPay);
   }, [method, registerPaymentAction, placeOrderWithGiroPay]);
 
+  const paymentMethodRadioInput = (
+    <RadioInput
+      value={method.code}
+      label={method.title}
+      name="paymentMethod"
+      checked={isSelected}
+      formikData={formikData}
+      onChange={actions.change}
+    />
+  );
+
   if (!isSelected) {
-    return (
-      <RadioInput
-        label={method.title}
-        name="paymentMethod"
-        value={method.code}
-        onChange={actions.change}
-        checked={isSelected}
-      />
-    );
+    return paymentMethodRadioInput;
   }
 
   return (
     <div>
       <div>
-        <RadioInput
-          label={method.title}
-          name="paymentMethod"
-          value={method.code}
-          onChange={actions.change}
-          checked={isSelected}
-        />
+        {paymentMethodRadioInput}
         <div className="mx-4 my-4">
-          <Card bg="white">
-            <div>
-              <TextInput label="IBAN" name={ibanField} autocomplete="off" />
-              <TextInput label="BIC" name={bicField} autocomplete="off" />
+          <Card bg="darker">
+            <div className="container flex flex-col justify-center w-4/5">
+              <TextInput
+                label="IBAN"
+                name={ibanField}
+                autocomplete="off"
+                formikData={formikData}
+              />
+              <TextInput
+                label="BIC"
+                name={bicField}
+                autocomplete="off"
+                formikData={formikData}
+              />
             </div>
-            {giroPayConfig.instructions && (
-              <p className="mt-4">{giroPayConfig.instructions}</p>
-            )}
-            {giroPayConfig.canShowPaymentText && (
-              <div className="mt-4">
-                <strong>
-                  <span>{giroPayConfig.paymentHintText}</span>
-                </strong>
-              </div>
-            )}
-            {giroPayConfig.canShowBoniAgreement && (
-              <div>
-                <Checkbox
-                  name={boniAgreementField}
-                  label={__(giroPayConfig.agreementMessage)}
-                />
-              </div>
-            )}
+            <div className="container">
+              {giroPayConfig.instructions && (
+                <p className="mt-4">{giroPayConfig.instructions}</p>
+              )}
+              {giroPayConfig.canShowPaymentText && (
+                <div className="mt-4">
+                  <strong>
+                    <span>{giroPayConfig.paymentHintText}</span>
+                  </strong>
+                </div>
+              )}
+            </div>
+
+            <div className="container">
+              {giroPayConfig.canShowBoniAgreement && (
+                <div>
+                  <Checkbox
+                    formikData={formikData}
+                    name={boniAgreementField}
+                    label={__(giroPayConfig.agreementMessage)}
+                  />
+                </div>
+              )}
+            </div>
           </Card>
         </div>
       </div>
@@ -109,9 +122,9 @@ function GiroPay({ method, selected, actions }) {
 }
 
 GiroPay.propTypes = {
+  actions: shape({ change: func }),
   method: paymentMethodShape.isRequired,
   selected: paymentMethodShape.isRequired,
-  actions: shape({ change: func }),
 };
 
 export default GiroPay;

@@ -5,15 +5,21 @@ import _set from 'lodash.set';
 import { __ } from '../../../../i18n';
 import { performRedirect } from '../utility';
 import { LOGIN_FORM } from '../../../../config';
+import { _isObjEmpty, _keys } from '../../../../utils';
 import usePayOneAppContext from './usePayOneAppContext';
 import usePayOneCartContext from './usePayOneCartContext';
 
 export default function usePerformPlaceOrder(paymentMethodCode) {
   const { cartId, setRestPaymentMethod, setOrderInfo } = usePayOneCartContext();
-  const { isLoggedIn, setErrorMessage, setPageLoader } = usePayOneAppContext();
+  const {
+    isLoggedIn,
+    setPageLoader,
+    setErrorMessage,
+    checkoutAgreements,
+  } = usePayOneAppContext();
 
   return useCallback(
-    async (values, additionalData, extensionAttributes) => {
+    async (values, additionalData, extensionAttributes = {}) => {
       try {
         const email = _get(values, `${LOGIN_FORM}.email`);
         const paymentMethodData = {
@@ -23,12 +29,14 @@ export default function usePerformPlaceOrder(paymentMethodCode) {
           },
         };
 
-        if (extensionAttributes) {
-          _set(
-            paymentMethodData,
-            'paymentMethod.extension_attributes',
-            extensionAttributes
-          );
+        if (
+          !_isObjEmpty(extensionAttributes) ||
+          !_isObjEmpty(checkoutAgreements)
+        ) {
+          _set(paymentMethodData, 'paymentMethod.extension_attributes', {
+            ...extensionAttributes,
+            agreement_ids: _keys(checkoutAgreements),
+          });
         }
 
         if (!isLoggedIn) {
@@ -62,6 +70,7 @@ export default function usePerformPlaceOrder(paymentMethodCode) {
       setPageLoader,
       setErrorMessage,
       paymentMethodCode,
+      checkoutAgreements,
       setRestPaymentMethod,
     ]
   );

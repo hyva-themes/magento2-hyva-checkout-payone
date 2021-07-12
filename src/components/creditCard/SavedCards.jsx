@@ -1,12 +1,13 @@
 import React from 'react';
 import _get from 'lodash.get';
 import { string } from 'prop-types';
-import { useFormikContext } from 'formik';
 
 import CCForm from './CCForm';
 import RadioInput from '../../../../../components/common/Form/RadioInput';
-import creditCardConfig from './creditCardConfig';
 import { selectedCardField } from './utility';
+import creditCardConfig from './creditCardConfig';
+import usePayOnePaymentMethodContext from '../../hooks/usePayOnePaymentMethodContext';
+import { PAYMENT_METHOD_FORM } from '../../../../../config';
 
 function formatCardExpireDate(expireDate) {
   return `${expireDate.substring(2, 4)}/${expireDate.substring(0, 2)}`;
@@ -17,8 +18,11 @@ function getCardImage(cardType) {
 }
 
 function SavedCards({ detectedCardType }) {
-  const { values } = useFormikContext();
-  const selectedCard = _get(values, selectedCardField);
+  const { paymentValues, formikData } = usePayOnePaymentMethodContext();
+  const selectedCard = _get(
+    paymentValues,
+    selectedCardField.replace(`${PAYMENT_METHOD_FORM}.`, '')
+  );
 
   return (
     <table className="w-full text-sm">
@@ -30,9 +34,10 @@ function SavedCards({ detectedCardType }) {
           >
             <td className="pl-2">
               <RadioInput
+                formikData={formikData}
                 name={selectedCardField}
-                checked={selectedCard === creditCardConfig.getCardPan(payment)}
                 value={creditCardConfig.getCardPan(payment)}
+                checked={selectedCard === creditCardConfig.getCardPan(payment)}
               />
             </td>
             <td>
@@ -57,10 +62,11 @@ function SavedCards({ detectedCardType }) {
             <>
               <div className="pl-2">
                 <RadioInput
+                  value="new"
+                  formikData={formikData}
                   name={selectedCardField}
                   label="Add new creditcard"
                   checked={selectedCard === 'new'}
-                  value="new"
                 />
               </div>
               <div

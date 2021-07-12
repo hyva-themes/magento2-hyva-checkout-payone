@@ -4,21 +4,24 @@ import { func, shape } from 'prop-types';
 import CCForm from './CCForm';
 import CCIframe from './CCIframe';
 import SavedCards from './SavedCards';
+import Card from '../../../../../components/common/Card';
 import RadioInput from '../../../../../components/common/Form/RadioInput';
 import usePayOneCC from './hooks/usePayOneCC';
+import creditCardConfig from './creditCardConfig';
+import { paymentMethodShape } from '../../utility';
 import useCardTypeDetection from './hooks/useCardTypeDetection';
 import usePayOneCCFormInitialize from './hooks/usePayOneCCFomInitialize';
 import usePayOneCheckoutFormContext from '../../hooks/usePayOneCheckoutFormContext';
-import creditCardConfig from './creditCardConfig';
-import { paymentMethodShape } from '../../utility';
+import usePayOnePaymentMethodContext from '../../hooks/usePayOnePaymentMethodContext';
 
 function CreditCard({ method, selected, actions }) {
   const savedData = creditCardConfig.useSavedData();
-  const isSelected = method.code === selected.code;
-  const { isFormInitialized, setSelectedCard } = usePayOneCCFormInitialize();
-  const { registerPaymentAction } = usePayOneCheckoutFormContext();
   const { cardTypeDetected } = useCardTypeDetection();
+  const { formikData } = usePayOnePaymentMethodContext();
+  const { registerPaymentAction } = usePayOneCheckoutFormContext();
   const { handleCreditCardCheckThenPlaceOrder } = usePayOneCC(method.code);
+  const { isFormInitialized, setSelectedCard } = usePayOneCCFormInitialize();
+  const isSelected = method.code === selected.code;
 
   /**
    * This will be fired when user placing the order and this payment method
@@ -60,16 +63,21 @@ function CreditCard({ method, selected, actions }) {
     }
   }, [savedData, isSelected, setSelectedCard]);
 
+  const radioInputElement = (
+    <RadioInput
+      value={method.code}
+      label={method.title}
+      name="paymentMethod"
+      checked={isSelected}
+      formikData={formikData}
+      onChange={actions.change}
+    />
+  );
+
   if (!isSelected) {
     return (
       <>
-        <RadioInput
-          label={method.title}
-          name="paymentMethod"
-          value={method.code}
-          onChange={actions.change}
-          checked={isSelected}
-        />
+        {radioInputElement}
         <div className="hidden">
           <CCIframe detectedCardType={cardTypeDetected} />
         </div>
@@ -80,13 +88,7 @@ function CreditCard({ method, selected, actions }) {
   if (savedData) {
     return (
       <div className="w-full">
-        <RadioInput
-          label={method.title}
-          name="paymentMethod"
-          value={method.code}
-          onChange={actions.change}
-          checked={isSelected}
-        />
+        {radioInputElement}
         <div className="mt-4 ml-4">
           <SavedCards detectedCardType={cardTypeDetected} />
         </div>
@@ -95,25 +97,23 @@ function CreditCard({ method, selected, actions }) {
   }
 
   return (
-    <div className="w-full">
-      <div>
-        <RadioInput
-          label={method.title}
-          name="paymentMethod"
-          value={method.code}
-          onChange={actions.change}
-          checked={isSelected}
-        />
+    <>
+      <div>{radioInputElement}</div>
+      <div className="mx-4 my-4">
+        <Card bg="darker">
+          <div className="container flex flex-col justify-center w-4/5">
+            <CCForm detectedCardType={cardTypeDetected} />
+          </div>
+        </Card>
       </div>
-      <CCForm detectedCardType={cardTypeDetected} />
-    </div>
+    </>
   );
 }
 
 CreditCard.propTypes = {
+  actions: shape({ change: func }),
   method: paymentMethodShape.isRequired,
   selected: paymentMethodShape.isRequired,
-  actions: shape({ change: func }),
 };
 
 export default CreditCard;

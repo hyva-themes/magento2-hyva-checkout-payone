@@ -1,23 +1,23 @@
 import React, { useEffect } from 'react';
 import { func, shape } from 'prop-types';
-import { useFormikContext } from 'formik';
 
 import Card from '../../../../../components/common/Card';
 import Checkbox from '../../../../../components/common/Form/Checkbox';
 import TextInput from '../../../../../components/common/Form/TextInput';
 import RadioInput from '../../../../../components/common/Form/RadioInput';
 import SelectInput from '../../../../../components/common/Form/SelectInput';
-import usePayOneDebit from './hooks/usePayOneDebit';
-import usePayOneCheckoutFormContext from '../../hooks/usePayOneCheckoutFormContext';
 import debitConfig from './debitConfig';
 import { __ } from '../../../../../i18n';
 import { paymentMethodShape } from '../../utility';
+import usePayOneDebit from './hooks/usePayOneDebit';
 import { bicField, debitCountryField, debitField, ibanField } from './utility';
+import usePayOneCheckoutFormContext from '../../hooks/usePayOneCheckoutFormContext';
+import usePayOnePaymentMethodContext from '../../hooks/usePayOnePaymentMethodContext';
 
 const boniAgreementField = `${debitField}.boniAgreement`;
 
 function Debit({ method, selected, actions }) {
-  const { setFieldValue } = useFormikContext();
+  const { formikData, setFieldValue } = usePayOnePaymentMethodContext();
   const placeOrderWithDebit = usePayOneDebit(method.code);
   const { registerPaymentAction } = usePayOneCheckoutFormContext();
   const isSelected = method.code === selected.code;
@@ -35,11 +35,12 @@ function Debit({ method, selected, actions }) {
   if (!isSelected) {
     return (
       <RadioInput
+        value={method.code}
         label={method.title}
         name="paymentMethod"
-        value={method.code}
-        onChange={actions.change}
         checked={isSelected}
+        formikData={formikData}
+        onChange={actions.change}
       />
     );
   }
@@ -48,25 +49,35 @@ function Debit({ method, selected, actions }) {
     <div>
       <div>
         <RadioInput
+          value={method.code}
           label={method.title}
           name="paymentMethod"
-          value={method.code}
-          onChange={actions.change}
           checked={isSelected}
+          formikData={formikData}
+          onChange={actions.change}
         />
       </div>
       <div className="mx-4 my-4">
-        <Card bg="white">
-          <div>
+        <Card bg="darker">
+          <div className="container flex flex-col justify-center w-4/5">
             <fieldset>
               <SelectInput
-                label={__('Bank country')}
+                formikData={formikData}
                 name={debitCountryField}
+                label={__('Bank country')}
                 options={debitConfig.getCountryList}
               />
-              <TextInput label={__('IBAN')} name={ibanField} />
+              <TextInput
+                name={ibanField}
+                label={__('IBAN')}
+                formikData={formikData}
+              />
               {debitConfig.requestBic && (
-                <TextInput label={__('BIC')} name={bicField} />
+                <TextInput
+                  name={bicField}
+                  label={__('BIC')}
+                  formikData={formikData}
+                />
               )}
             </fieldset>
           </div>
@@ -84,6 +95,7 @@ function Debit({ method, selected, actions }) {
             {debitConfig.canShowBoniAgreement && (
               <div>
                 <Checkbox
+                  formikData={formikData}
                   name={boniAgreementField}
                   label={__(debitConfig.agreementMessage)}
                 />
@@ -97,9 +109,9 @@ function Debit({ method, selected, actions }) {
 }
 
 Debit.propTypes = {
+  actions: shape({ change: func }),
   method: paymentMethodShape.isRequired,
   selected: paymentMethodShape.isRequired,
-  actions: shape({ change: func }),
 };
 
 export default Debit;

@@ -1,11 +1,11 @@
 import { useCallback, useEffect, useState } from 'react';
-import { useFormikContext } from 'formik';
 
 import { additionalDataField, selectedCardField } from '../utility';
+import usePayOnePaymentMethodContext from '../../../hooks/usePayOnePaymentMethodContext';
 
 export default function usePayOneCCFormInitialize() {
   const [isFormInitialized, setIsFormInitialized] = useState(false);
-  const { setFieldValue } = useFormikContext();
+  const { setFieldValue } = usePayOnePaymentMethodContext();
 
   const setSelectedCard = useCallback(
     card => setFieldValue(selectedCardField, card),

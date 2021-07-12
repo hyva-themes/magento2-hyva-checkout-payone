@@ -1,12 +1,12 @@
 import React from 'react';
 import { string } from 'prop-types';
 import _get from 'lodash.get';
-import { useFormikContext } from 'formik';
 
 import Checkbox from '../../../../../components/common/Form/Checkbox';
-import creditCardConfig from './creditCardConfig';
-import { PAYMENT_METHOD_FORM } from '../../../../../config';
 import { __ } from '../../../../../i18n';
+import creditCardConfig from './creditCardConfig';
+import usePayOnePaymentMethodContext from '../../hooks/usePayOnePaymentMethodContext';
+import { PAYMENT_METHOD_FORM } from '../../../../../config';
 
 let { availableCardTypes } = creditCardConfig;
 const { isAutoCardtypeDetectionEnabled } = creditCardConfig;
@@ -15,11 +15,11 @@ function getCardTypeImageUrl(imageId) {
   return `https://cdn.pay1.de/cc/${imageId}/s/default.png`;
 }
 
-const saveDataField = `${PAYMENT_METHOD_FORM}.payone.cc.additional_data.saveData`;
+const saveDataField = 'payone.cc.additional_data.saveData';
 
 function CCIframe({ detectedCardType }) {
-  const { values } = useFormikContext();
-  const saveData = !!_get(values, saveDataField);
+  const { paymentValues, formikData } = usePayOnePaymentMethodContext();
+  const saveData = !!_get(paymentValues, saveDataField);
   let detectedCard;
 
   if (isAutoCardtypeDetectionEnabled) {
@@ -45,8 +45,8 @@ function CCIframe({ detectedCardType }) {
                 <img
                   key={cardType.id}
                   alt={cardType.title}
-                  src={getCardTypeImageUrl(cardType.id.toLowerCase())}
                   className="w-auto h-3"
+                  src={getCardTypeImageUrl(cardType.id.toLowerCase())}
                 />
               ))}
           </div>
@@ -75,9 +75,10 @@ function CCIframe({ detectedCardType }) {
 
       {creditCardConfig.isSaveDataEnabled() && (
         <Checkbox
-          label={__('Save the payment data for future use.')}
-          name={saveDataField}
           isChecked={saveData}
+          formikData={formikData}
+          name={`${PAYMENT_METHOD_FORM}.${saveDataField}`}
+          label={__('Save the payment data for future use.')}
         />
       )}
     </>

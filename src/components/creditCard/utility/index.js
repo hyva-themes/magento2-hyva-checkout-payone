@@ -1,15 +1,16 @@
 import _get from 'lodash.get';
 import _set from 'lodash.set';
 
-import { PAYMENT_METHOD_FORM } from '../../../../../../config';
 import { __ } from '../../../../../../i18n';
-import LocalStorage from '../../../../../../utils/localStorage';
 import creditCardConfig from '../creditCardConfig';
+import { PAYMENT_METHOD_FORM } from '../../../../../../config';
+import LocalStorage from '../../../../../../utils/localStorage';
 
-export const selectedCardField = `${PAYMENT_METHOD_FORM}.payone.cc.selectedCard`;
-export const additionalDataField = `${PAYMENT_METHOD_FORM}.payone.cc.additional_data`;
-const cardTypeField = `${PAYMENT_METHOD_FORM}.payone.cc.additional_data.cardtype`;
-const cardHolderField = `${PAYMENT_METHOD_FORM}.payone.cc.additional_data.cardholder`;
+export const ccField = `${PAYMENT_METHOD_FORM}.payone.cc`;
+export const selectedCardField = `${ccField}.selectedCard`;
+export const additionalDataField = `${ccField}.additional_data`;
+export const cardTypeField = `${ccField}.additional_data.cardtype`;
+export const cardHolderField = `${ccField}.additional_data.cardholder`;
 
 export function isInt(value) {
   return value.length > 0 && typeof value === 'number';
@@ -114,18 +115,18 @@ export function prepareSetPaymentMethodData(response, values) {
   const selectedCardPan = _get(values, selectedCardField);
   const isLoggedIn = !!LocalStorage.getCustomerToken();
   const {
-    truncatedcardpan,
-    pseudocardpan,
     cardtype,
+    pseudocardpan,
     cardexpiredate,
+    truncatedcardpan,
   } = response;
 
   let additionalData = {
-    cardholder,
-    truncatedcardpan,
-    pseudocardpan,
     cardtype,
+    cardholder,
+    pseudocardpan,
     cardexpiredate,
+    truncatedcardpan,
   };
 
   if (isLoggedIn) {

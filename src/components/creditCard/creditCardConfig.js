@@ -1,8 +1,8 @@
 import _get from 'lodash.get';
-import { PAYMENT_METHOD_FORM } from '../../../../../config';
 
-import LocalStorage from '../../../../../utils/localStorage';
 import RootElement from '../../../../../utils/rootElement';
+import { PAYMENT_METHOD_FORM } from '../../../../../config';
+import LocalStorage from '../../../../../utils/localStorage';
 
 const config = RootElement.getPaymentConfig();
 const inputStyles =
@@ -12,17 +12,16 @@ const selectStyles =
 const iframe = { height: '50px', width: '100%' };
 const payOne = config.payone;
 const {
-  hostedRequest,
+  checkCvc,
   fieldConfig,
-  availableCardTypes,
+  hostedRequest,
   ccMinValidity,
   savedPaymentData,
-  checkCvc,
   saveCCDataEnabled,
+  availableCardTypes,
 } = payOne;
 
 const paymentConfig = {
-  request: hostedRequest,
   fieldConfig: {
     ...fieldConfig,
     fields: {
@@ -43,11 +42,12 @@ const paymentConfig = {
       select: selectStyles,
     },
   },
-  ccMinValidity,
-  availableCardTypes,
-  savedPaymentData,
-  isAutoCardtypeDetectionEnabled: !!fieldConfig.autoCardtypeDetection,
   checkCvc,
+  ccMinValidity,
+  savedPaymentData,
+  availableCardTypes,
+  request: hostedRequest,
+  isAutoCardtypeDetectionEnabled: !!fieldConfig.autoCardtypeDetection,
 
   isSaveDataEnabled() {
     return saveCCDataEnabled && !!LocalStorage.getCustomerToken();

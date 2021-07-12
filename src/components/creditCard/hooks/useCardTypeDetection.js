@@ -1,16 +1,14 @@
 import { useEffect, useState } from 'react';
 import _get from 'lodash.get';
 import _set from 'lodash.set';
-import { useFormikContext } from 'formik';
 
+import { cardTypeField } from '../utility';
 import creditCardConfig from '../creditCardConfig';
-import { PAYMENT_METHOD_FORM } from '../../../../../../config';
-
-const cardTypeField = `${PAYMENT_METHOD_FORM}.additional_data.cardtype`;
+import usePayOnePaymentMethodContext from '../../../hooks/usePayOnePaymentMethodContext';
 
 export default function useCardTypeDetection() {
   const [cardTypeDetected, setCardTypeDetected] = useState('');
-  const { setFieldValue } = useFormikContext();
+  const { setFieldValue } = usePayOnePaymentMethodContext();
 
   useEffect(() => {
     if (creditCardConfig.isAutoCardtypeDetectionEnabled) {
