@@ -39,7 +39,6 @@ function Sofort({ method, selected, actions }) {
       value={method.code}
       onChange={actions.change}
       checked={isSelected}
-      formikData={formikData}
     />
   );
 

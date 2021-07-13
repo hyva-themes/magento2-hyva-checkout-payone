@@ -45,7 +45,6 @@ function PayDirekt({ method, selected, actions }) {
       label={method.title}
       name="paymentMethod"
       checked={isSelected}
-      formikData={formikData}
       onChange={actions.change}
     />
   );

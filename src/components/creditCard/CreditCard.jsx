@@ -12,12 +12,10 @@ import { paymentMethodShape } from '../../utility';
 import useCardTypeDetection from './hooks/useCardTypeDetection';
 import usePayOneCCFormInitialize from './hooks/usePayOneCCFomInitialize';
 import usePayOneCheckoutFormContext from '../../hooks/usePayOneCheckoutFormContext';
-import usePayOnePaymentMethodContext from '../../hooks/usePayOnePaymentMethodContext';
 
 function CreditCard({ method, selected, actions }) {
   const savedData = creditCardConfig.useSavedData();
   const { cardTypeDetected } = useCardTypeDetection();
-  const { formikData } = usePayOnePaymentMethodContext();
   const { registerPaymentAction } = usePayOneCheckoutFormContext();
   const { handleCreditCardCheckThenPlaceOrder } = usePayOneCC(method.code);
   const { isFormInitialized, setSelectedCard } = usePayOneCCFormInitialize();
@@ -69,7 +67,6 @@ function CreditCard({ method, selected, actions }) {
       label={method.title}
       name="paymentMethod"
       checked={isSelected}
-      formikData={formikData}
       onChange={actions.change}
     />
   );

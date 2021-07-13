@@ -18,7 +18,7 @@ function getCardImage(cardType) {
 }
 
 function SavedCards({ detectedCardType }) {
-  const { paymentValues, formikData } = usePayOnePaymentMethodContext();
+  const { paymentValues } = usePayOnePaymentMethodContext();
   const selectedCard = _get(
     paymentValues,
     selectedCardField.replace(`${PAYMENT_METHOD_FORM}.`, '')
@@ -34,7 +34,6 @@ function SavedCards({ detectedCardType }) {
           >
             <td className="pl-2">
               <RadioInput
-                formikData={formikData}
                 name={selectedCardField}
                 value={creditCardConfig.getCardPan(payment)}
                 checked={selectedCard === creditCardConfig.getCardPan(payment)}
@@ -63,7 +62,6 @@ function SavedCards({ detectedCardType }) {
               <div className="pl-2">
                 <RadioInput
                   value="new"
-                  formikData={formikData}
                   name={selectedCardField}
                   label="Add new creditcard"
                   checked={selectedCard === 'new'}
