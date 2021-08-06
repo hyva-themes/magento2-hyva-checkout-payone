@@ -17,7 +17,7 @@ export function validate(values) {
     bic: YupString().test(
       'requiredIfRequestBic',
       __('Please enter a valid BIC.'),
-      async value => debitConfig.requestBic && !!(await value)
+      async value => !(debitConfig.requestBic && !(await value))
     ),
   });
   const paymentMethodValues = _get(values, debitField, {});
