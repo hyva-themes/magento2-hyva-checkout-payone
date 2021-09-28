@@ -1,8 +1,8 @@
 import _get from 'lodash.get';
+import RootElement from '@hyva/react-checkout/utils/rootElement';
+import LocalStorage from '@hyva/react-checkout/utils/localStorage';
 
-import RootElement from '../../../../../utils/rootElement';
 import { PAYMENT_METHOD_FORM } from '../../../../../config';
-import LocalStorage from '../../../../../utils/localStorage';
 
 const config = RootElement.getPaymentConfig();
 const inputStyles =
@@ -65,7 +65,7 @@ const paymentConfig = {
 
   getDefaultSavedCard() {
     return paymentConfig.savedPaymentData.find(
-      payment => Number(payment.is_default) === 1
+      (payment) => Number(payment.is_default) === 1
     );
   },
 

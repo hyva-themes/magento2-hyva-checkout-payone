@@ -1,10 +1,10 @@
 import React, { useCallback, useEffect } from 'react';
 import { func, shape } from 'prop-types';
+import { __ } from '@hyva/react-checkout/i18n';
+import Card from '@hyva/react-checkout/components/common/Card';
+import Checkbox from '@hyva/react-checkout/components/common/Form/Checkbox';
+import RadioInput from '@hyva/react-checkout/components/common/Form/RadioInput';
 
-import Card from '../../../../../components/common/Card';
-import Checkbox from '../../../../../components/common/Form/Checkbox';
-import RadioInput from '../../../../../components/common/Form/RadioInput';
-import { __ } from '../../../../../i18n';
 import payPalConfig from './paypalConfig';
 import { paymentMethodShape } from '../../utility';
 import { PAYMENT_METHOD_FORM } from '../../../../../config';
@@ -19,7 +19,7 @@ function PayPal({ method, selected, actions }) {
   const performPlaceOrder = usePerformPlaceOrder(method.code);
 
   const placeOrderWithPayPal = useCallback(
-    values => performPlaceOrder(values),
+    (values) => performPlaceOrder(values),
     [performPlaceOrder]
   );
 
@@ -72,7 +72,7 @@ function PayPal({ method, selected, actions }) {
 PayPal.propTypes = {
   method: paymentMethodShape.isRequired,
   selected: paymentMethodShape.isRequired,
-  actions: shape({ change: func }),
+  actions: shape({ change: func }).isRequired,
 };
 
 export default PayPal;

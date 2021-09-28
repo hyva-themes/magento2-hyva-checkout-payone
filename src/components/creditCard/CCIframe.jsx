@@ -1,12 +1,12 @@
 import React from 'react';
-import { string } from 'prop-types';
 import _get from 'lodash.get';
+import { string } from 'prop-types';
+import { __ } from '@hyva/react-checkout/i18n';
 
-import Checkbox from '../../../../../components/common/Form/Checkbox';
-import { __ } from '../../../../../i18n';
+import Checkbox from '@hyva/react-checkout/components/common/Form/Checkbox';
 import creditCardConfig from './creditCardConfig';
-import usePayOnePaymentMethodContext from '../../hooks/usePayOnePaymentMethodContext';
 import { PAYMENT_METHOD_FORM } from '../../../../../config';
+import usePayOnePaymentMethodContext from '../../hooks/usePayOnePaymentMethodContext';
 
 let { availableCardTypes } = creditCardConfig;
 const { isAutoCardtypeDetectionEnabled } = creditCardConfig;
@@ -24,7 +24,7 @@ function CCIframe({ detectedCardType }) {
 
   if (isAutoCardtypeDetectionEnabled) {
     detectedCard = creditCardConfig.availableCardTypes.find(
-      cardType => cardType.id.toUpperCase() === detectedCardType
+      (cardType) => cardType.id.toUpperCase() === detectedCardType
     );
 
     if (detectedCard) {
@@ -41,7 +41,7 @@ function CCIframe({ detectedCardType }) {
           </label>
           <div className="flex space-x-2">
             {isAutoCardtypeDetectionEnabled &&
-              availableCardTypes.map(cardType => (
+              availableCardTypes.map((cardType) => (
                 <img
                   key={cardType.id}
                   alt={cardType.title}
@@ -51,7 +51,7 @@ function CCIframe({ detectedCardType }) {
               ))}
           </div>
         </div>
-        <div id="cardpan" className="inputIframe"></div>
+        <div id="cardpan" className="inputIframe" />
       </div>
 
       <div>
@@ -59,8 +59,8 @@ function CCIframe({ detectedCardType }) {
           {__('Expiration Date')}
         </label>
         <div className="flex justify-between">
-          <div className="w-2/5" id="cardexpiremonth"></div>
-          <div className="w-2/5" id="cardexpireyear"></div>
+          <div className="w-2/5" id="cardexpiremonth" />
+          <div className="w-2/5" id="cardexpireyear" />
         </div>
       </div>
 
@@ -69,7 +69,7 @@ function CCIframe({ detectedCardType }) {
           <label htmlFor="cardcvc2" className="md:text-sm">
             {__('Card Verification Number')}
           </label>
-          <div id="cardcvc2" className="inputIframe"></div>
+          <div id="cardcvc2" className="inputIframe" />
         </div>
       )}
 

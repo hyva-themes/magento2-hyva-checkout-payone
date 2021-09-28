@@ -1,8 +1,8 @@
 import _get from 'lodash.get';
 import { object as YupObject, string as YupString } from 'yup';
+import { __ } from '@hyva/react-checkout/i18n';
 
 import debitConfig from '../debitConfig';
-import { __ } from '../../../../../../i18n';
 import { PAYMENT_METHOD_FORM } from '../../../../../../config';
 
 export const debitField = `${PAYMENT_METHOD_FORM}.payone.debit`;
@@ -17,7 +17,7 @@ export function validate(values) {
     bic: YupString().test(
       'requiredIfRequestBic',
       __('Please enter a valid BIC.'),
-      async value => debitConfig.requestBic && !!(await value)
+      async (value) => debitConfig.requestBic && !!(await value)
     ),
   });
   const paymentMethodValues = _get(values, debitField, {});

@@ -1,10 +1,10 @@
 import _get from 'lodash.get';
 import _set from 'lodash.set';
+import { __ } from '@hyva/react-checkout/i18n';
+import LocalStorage from '@hyva/react-checkout/utils/localStorage';
 
-import { __ } from '../../../../../../i18n';
 import creditCardConfig from '../creditCardConfig';
 import { PAYMENT_METHOD_FORM } from '../../../../../../config';
-import LocalStorage from '../../../../../../utils/localStorage';
 
 export const ccField = `${PAYMENT_METHOD_FORM}.payone.cc`;
 export const selectedCardField = `${ccField}.selectedCard`;
@@ -47,6 +47,14 @@ export function isCardholderDataValid(sCardholder) {
     return true;
   }
   return false;
+}
+
+function getSelectedSavedCard(values) {
+  const { savedPaymentData = [] } = creditCardConfig;
+  const selectedCardPan = _get(values, selectedCardField);
+  return savedPaymentData.find(
+    (card) => creditCardConfig.getCardPan(card) === selectedCardPan
+  );
 }
 
 export function validate(values) {
@@ -100,26 +108,14 @@ export function validate(values) {
   return { isValid: true };
 }
 
-function getSelectedSavedCard(values) {
-  const { savedPaymentData = [] } = creditCardConfig;
-  const selectedCardPan = _get(values, selectedCardField);
-  return savedPaymentData.find(
-    card => creditCardConfig.getCardPan(card) === selectedCardPan
-  );
-}
-
 export function prepareSetPaymentMethodData(response, values) {
   const payment = _get(values, PAYMENT_METHOD_FORM);
   const cardholder = _get(payment, 'additional_data.cardholder');
   const saveData = Number(!!_get(payment, 'additional_data.saveData'));
   const selectedCardPan = _get(values, selectedCardField);
   const isLoggedIn = !!LocalStorage.getCustomerToken();
-  const {
-    cardtype,
-    pseudocardpan,
-    cardexpiredate,
-    truncatedcardpan,
-  } = response;
+  const { cardtype, pseudocardpan, cardexpiredate, truncatedcardpan } =
+    response;
 
   let additionalData = {
     cardtype,

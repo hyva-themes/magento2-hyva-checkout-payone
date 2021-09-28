@@ -1,12 +1,12 @@
 import { useCallback } from 'react';
 import _get from 'lodash.get';
+import { __ } from '@hyva/react-checkout/i18n';
 
-import usePayOneAppContext from '../../../hooks/usePayOneAppContext';
-import usePerformPlaceOrder from '../../../hooks/usePerformPlaceOrder';
 import debitConfig from '../debitConfig';
-import { __ } from '../../../../../../i18n';
 import { performRedirect } from '../../../utility';
 import ResponseUtility from '../utility/responseUtility';
+import usePayOneAppContext from '../../../hooks/usePayOneAppContext';
+import usePerformPlaceOrder from '../../../hooks/usePerformPlaceOrder';
 import { bicField, debitCountryField, ibanField, validate } from '../utility';
 
 export default function usePayOneDebit(paymentMethodCode) {
@@ -14,7 +14,7 @@ export default function usePayOneDebit(paymentMethodCode) {
   const performPlaceOrder = usePerformPlaceOrder(paymentMethodCode);
 
   const performPlaceOrderWithDebit = useCallback(
-    async values => {
+    async (values) => {
       const bic = _get(values, bicField);
       const iban = _get(values, ibanField);
       const bankCountry = _get(values, debitCountryField);
@@ -48,7 +48,7 @@ export default function usePayOneDebit(paymentMethodCode) {
   );
 
   const handleBankAccountCheck = useCallback(
-    values => {
+    (values) => {
       const iban = _get(values, ibanField);
       const oBasicRequest = {
         ...debitConfig.bankAccountCheckRequest,
@@ -61,7 +61,7 @@ export default function usePayOneDebit(paymentMethodCode) {
 
       window.processPayOneResponseELV =
         window.processPayOneResponseELV ||
-        (response => processPayOneResponseELV(response, values));
+        ((response) => processPayOneResponseELV(response, values));
 
       const options = {
         return_type: 'object',
@@ -76,7 +76,7 @@ export default function usePayOneDebit(paymentMethodCode) {
   );
 
   return useCallback(
-    async values => {
+    async (values) => {
       try {
         setPageLoader(true);
 

@@ -1,14 +1,14 @@
 import { useCallback } from 'react';
+import { __ } from '@hyva/react-checkout/i18n';
 
-import usePayOneAppContext from '../../../hooks/usePayOneAppContext';
-import usePerformPlaceOrder from '../../../hooks/usePerformPlaceOrder';
-import creditCardConfig from '../creditCardConfig';
-import { __ } from '../../../../../../i18n';
 import {
+  validate,
   isMinValidityCorrect,
   prepareSetPaymentMethodData,
-  validate,
 } from '../utility';
+import creditCardConfig from '../creditCardConfig';
+import usePayOneAppContext from '../../../hooks/usePayOneAppContext';
+import usePerformPlaceOrder from '../../../hooks/usePerformPlaceOrder';
 
 export default function usePayOneCC(paymentMethodCode) {
   const { setErrorMessage, setPageLoader } = usePayOneAppContext();
@@ -44,7 +44,7 @@ export default function usePayOneCC(paymentMethodCode) {
   );
 
   const handleCreditCardCheckThenPlaceOrder = useCallback(
-    async values => {
+    async (values) => {
       const { isValid, message } = validate(values);
 
       if (!isValid) {
@@ -61,7 +61,7 @@ export default function usePayOneCC(paymentMethodCode) {
       // PayOne Request if the data is valid
       if (window.iframes.isComplete()) {
         setPageLoader(true);
-        window.processPayoneResponseCCHosted = async response => {
+        window.processPayoneResponseCCHosted = async (response) => {
           await processPayoneResponseCCHosted(response, values);
         };
         window.iframes.creditCardCheck('processPayoneResponseCCHosted');

@@ -1,11 +1,11 @@
 import React, { useCallback, useEffect } from 'react';
 import { func, shape } from 'prop-types';
+import Card from '@hyva/react-checkout/components/common/Card';
+import RadioInput from '@hyva/react-checkout/components/common/Form/RadioInput';
 
 import CCForm from './CCForm';
 import CCIframe from './CCIframe';
 import SavedCards from './SavedCards';
-import Card from '../../../../../components/common/Card';
-import RadioInput from '../../../../../components/common/Form/RadioInput';
 import usePayOneCC from './hooks/usePayOneCC';
 import creditCardConfig from './creditCardConfig';
 import { paymentMethodShape } from '../../utility';
@@ -26,7 +26,7 @@ function CreditCard({ method, selected, actions }) {
    * is selected by the user.
    */
   const paymentSubmitHandler = useCallback(
-    async values => {
+    async (values) => {
       await handleCreditCardCheckThenPlaceOrder(values);
       return false;
     },
@@ -108,9 +108,9 @@ function CreditCard({ method, selected, actions }) {
 }
 
 CreditCard.propTypes = {
-  actions: shape({ change: func }),
   method: paymentMethodShape.isRequired,
   selected: paymentMethodShape.isRequired,
+  actions: shape({ change: func }).isRequired,
 };
 
 export default CreditCard;

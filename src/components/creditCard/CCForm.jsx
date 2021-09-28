@@ -1,10 +1,10 @@
 import React from 'react';
 import { string } from 'prop-types';
+import { __ } from '@hyva/react-checkout/i18n';
+import TextInput from '@hyva/react-checkout/components/common/Form/TextInput';
+import SelectInput from '@hyva/react-checkout/components/common/Form/SelectInput';
 
 import CCIframe from './CCIframe';
-import TextInput from '../../../../../components/common/Form/TextInput';
-import SelectInput from '../../../../../components/common/Form/SelectInput';
-import { __ } from '../../../../../i18n';
 import creditCardConfig from './creditCardConfig';
 import { cardHolderField, cardTypeField } from './utility';
 import usePayOnePaymentMethodContext from '../../hooks/usePayOnePaymentMethodContext';
@@ -16,7 +16,7 @@ const cardTypeOptions = creditCardConfig.availableCardTypes.map(
 function CCForm({ detectedCardType }) {
   const { setFieldValue, formikData } = usePayOnePaymentMethodContext();
 
-  const handleCardTypeChange = event => {
+  const handleCardTypeChange = (event) => {
     const newCardTypeSelected = event.target.value;
 
     setFieldValue(cardTypeField, newCardTypeSelected);

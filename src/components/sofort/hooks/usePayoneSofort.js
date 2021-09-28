@@ -1,8 +1,8 @@
 import { useCallback } from 'react';
 import _get from 'lodash.get';
+import { __ } from '@hyva/react-checkout/i18n';
 
 import sofortConfig from '../sofortConfig';
-import { __ } from '../../../../../../i18n';
 import { prepareSetPaymentMethodData } from '../utility';
 import { PAYMENT_METHOD_FORM } from '../../../../../../config';
 import usePayOneAppContext from '../../../hooks/usePayOneAppContext';
@@ -15,7 +15,7 @@ export default function usePayoneSofort(paymentMethodCode) {
   const performPlaceOrder = usePerformPlaceOrder(paymentMethodCode);
 
   const placeOrderWithSofort = useCallback(
-    async values => {
+    async (values) => {
       const { bic, iban } = _get(values, sofortField);
 
       if (sofortConfig.requestIbanBic) {

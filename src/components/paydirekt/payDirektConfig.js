@@ -1,6 +1,6 @@
 import _get from 'lodash.get';
+import RootElement from '@hyva/react-checkout/utils/rootElement';
 
-import RootElement from '../../../../../utils/rootElement';
 import { getPayOneBaseConfig } from '../../utility/payOneBaseConfig';
 
 const paymentMethodCode = 'payone_paydirekt';

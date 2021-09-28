@@ -15,7 +15,7 @@ export default function useCardTypeDetection() {
       _set(
         creditCardConfig,
         'fieldConfig.autoCardtypeDetection.callback',
-        newCardTypeDetected => {
+        (newCardTypeDetected) => {
           setFieldValue(cardTypeField, newCardTypeDetected.toUpperCase());
           setCardTypeDetected(newCardTypeDetected.toUpperCase());
         }

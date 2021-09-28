@@ -1,8 +1,8 @@
 import { shape, string } from 'prop-types';
 import _get from 'lodash.get';
 
+import LocalStorage from '@hyva/react-checkout/utils/localStorage';
 import { config } from '../../../../config';
-import LocalStorage from '../../../../utils/localStorage';
 
 export const paymentMethodShape = shape({ title: string, code: string });
 

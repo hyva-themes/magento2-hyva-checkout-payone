@@ -1,25 +1,22 @@
 import React, { useCallback, useEffect } from 'react';
 import { func, shape } from 'prop-types';
+import { __ } from '@hyva/react-checkout/i18n';
+import Card from '@hyva/react-checkout/components/common/Card';
+import Button from '@hyva/react-checkout/components/common/Button';
+import Checkbox from '@hyva/react-checkout/components/common/Form/Checkbox';
+import RadioInput from '@hyva/react-checkout/components/common/Form/RadioInput';
 
-import Card from '../../../../../components/common/Card';
-import Checkbox from '../../../../../components/common/Form/Checkbox';
-import RadioInput from '../../../../../components/common/Form/RadioInput';
-import { __ } from '../../../../../i18n';
 import payDirektConfig from './payDirektConfig';
 import { paymentMethodShape } from '../../utility';
 import { redirectToOneKlickController } from './utility';
 import { PAYMENT_METHOD_FORM } from '../../../../../config';
-import Button from '../../../../../components/common/Button';
 import usePayOneAppContext from '../../hooks/usePayOneAppContext';
 import usePerformPlaceOrder from '../../hooks/usePerformPlaceOrder';
 import usePayOneCheckoutFormContext from '../../hooks/usePayOneCheckoutFormContext';
 import usePayOnePaymentMethodContext from '../../hooks/usePayOnePaymentMethodContext';
 
-const {
-  instructions,
-  canShowPaymentText,
-  canShowBoniAgreement,
-} = payDirektConfig;
+const { instructions, canShowPaymentText, canShowBoniAgreement } =
+  payDirektConfig;
 
 const boniAgreementField = `${PAYMENT_METHOD_FORM}.payone.paydirekt.boniAgreement`;
 
@@ -31,7 +28,7 @@ function PayDirekt({ method, selected, actions }) {
   const performPlaceOrder = usePerformPlaceOrder(method.code);
 
   const placeOrderWithPayDirekt = useCallback(
-    values => performPlaceOrder(values),
+    (values) => performPlaceOrder(values),
     [performPlaceOrder]
   );
 
@@ -93,9 +90,9 @@ function PayDirekt({ method, selected, actions }) {
 }
 
 PayDirekt.propTypes = {
-  actions: shape({ change: func }),
   method: paymentMethodShape.isRequired,
   selected: paymentMethodShape.isRequired,
+  actions: shape({ change: func }).isRequired,
 };
 
 export default PayDirekt;

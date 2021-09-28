@@ -1,10 +1,10 @@
 import React, { useCallback, useEffect } from 'react';
 import { func, shape } from 'prop-types';
+import { __ } from '@hyva/react-checkout/i18n';
+import Card from '@hyva/react-checkout/components/common/Card';
+import Checkbox from '@hyva/react-checkout/components/common/Form/Checkbox';
+import RadioInput from '@hyva/react-checkout/components/common/Form/RadioInput';
 
-import Card from '../../../../../components/common/Card';
-import Checkbox from '../../../../../components/common/Form/Checkbox';
-import RadioInput from '../../../../../components/common/Form/RadioInput';
-import { __ } from '../../../../../i18n';
 import invoiceConfig from './invoiceConfig';
 import { paymentMethodShape } from '../../utility';
 import { PAYMENT_METHOD_FORM } from '../../../../../config';
@@ -12,11 +12,8 @@ import usePerformPlaceOrder from '../../hooks/usePerformPlaceOrder';
 import usePayOneCheckoutFormContext from '../../hooks/usePayOneCheckoutFormContext';
 import usePayOnePaymentMethodContext from '../../hooks/usePayOnePaymentMethodContext';
 
-const {
-  instructions,
-  canShowPaymentText,
-  canShowBoniAgreement,
-} = invoiceConfig;
+const { instructions, canShowPaymentText, canShowBoniAgreement } =
+  invoiceConfig;
 
 const boniAgreementField = `${PAYMENT_METHOD_FORM}.payone.invoice.boniAgreement`;
 
@@ -27,7 +24,7 @@ function Invoice({ method, selected, actions }) {
   const isSelected = method.code === selected.code;
 
   const placeOrderWithInvoice = useCallback(
-    values => performPlaceOrder(values),
+    (values) => performPlaceOrder(values),
     [performPlaceOrder]
   );
 
@@ -86,7 +83,7 @@ function Invoice({ method, selected, actions }) {
 Invoice.propTypes = {
   method: paymentMethodShape.isRequired,
   selected: paymentMethodShape.isRequired,
-  actions: shape({ change: func }),
+  actions: shape({ change: func }).isRequired,
 };
 
 export default Invoice;

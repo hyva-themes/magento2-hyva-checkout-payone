@@ -8,7 +8,7 @@ export default function usePayOneCCFormInitialize() {
   const { setFieldValue } = usePayOnePaymentMethodContext();
 
   const setSelectedCard = useCallback(
-    card => setFieldValue(selectedCardField, card),
+    (card) => setFieldValue(selectedCardField, card),
     [setFieldValue]
   );
 

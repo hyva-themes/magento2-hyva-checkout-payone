@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react';
 import { func, shape } from 'prop-types';
+import { __ } from '@hyva/react-checkout/i18n';
+import Card from '@hyva/react-checkout/components/common/Card';
+import Checkbox from '@hyva/react-checkout/components/common/Form/Checkbox';
+import TextInput from '@hyva/react-checkout/components/common/Form/TextInput';
+import RadioInput from '@hyva/react-checkout/components/common/Form/RadioInput';
+import SelectInput from '@hyva/react-checkout/components/common/Form/SelectInput';
 
-import Card from '../../../../../components/common/Card';
-import Checkbox from '../../../../../components/common/Form/Checkbox';
-import TextInput from '../../../../../components/common/Form/TextInput';
-import RadioInput from '../../../../../components/common/Form/RadioInput';
-import SelectInput from '../../../../../components/common/Form/SelectInput';
 import debitConfig from './debitConfig';
-import { __ } from '../../../../../i18n';
 import { paymentMethodShape } from '../../utility';
 import usePayOneDebit from './hooks/usePayOneDebit';
 import { bicField, debitCountryField, debitField, ibanField } from './utility';
@@ -107,9 +107,9 @@ function Debit({ method, selected, actions }) {
 }
 
 Debit.propTypes = {
-  actions: shape({ change: func }),
   method: paymentMethodShape.isRequired,
   selected: paymentMethodShape.isRequired,
+  actions: shape({ change: func }).isRequired,
 };
 
 export default Debit;

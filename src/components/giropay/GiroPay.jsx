@@ -1,12 +1,12 @@
 import React, { useCallback, useEffect } from 'react';
 import _get from 'lodash.get';
 import { func, shape } from 'prop-types';
+import { __ } from '@hyva/react-checkout/i18n';
+import Card from '@hyva/react-checkout/components/common/Card';
+import Checkbox from '@hyva/react-checkout/components/common/Form/Checkbox';
+import TextInput from '@hyva/react-checkout/components/common/Form/TextInput';
+import RadioInput from '@hyva/react-checkout/components/common/Form/RadioInput';
 
-import Card from '../../../../../components/common/Card';
-import TextInput from '../../../../../components/common/Form/TextInput';
-import Checkbox from '../../../../../components/common/Form/Checkbox';
-import RadioInput from '../../../../../components/common/Form/RadioInput';
-import { __ } from '../../../../../i18n';
 import giroPayConfig from './giroPayConfig';
 import { paymentMethodShape } from '../../utility';
 import { PAYMENT_METHOD_FORM } from '../../../../../config';
@@ -28,7 +28,7 @@ function GiroPay({ method, selected, actions }) {
   const isSelected = method.code === selected.code;
 
   const placeOrderWithGiroPay = useCallback(
-    async values => {
+    async (values) => {
       const { bic, iban } = _get(values, giroPayField);
 
       if (!bic) {
@@ -121,9 +121,9 @@ function GiroPay({ method, selected, actions }) {
 }
 
 GiroPay.propTypes = {
-  actions: shape({ change: func }),
   method: paymentMethodShape.isRequired,
   selected: paymentMethodShape.isRequired,
+  actions: shape({ change: func }).isRequired,
 };
 
 export default GiroPay;

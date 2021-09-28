@@ -1,22 +1,18 @@
 import { useCallback } from 'react';
 import _get from 'lodash.get';
 import _set from 'lodash.set';
+import { __ } from '@hyva/react-checkout/i18n';
+import { _isObjEmpty, _keys } from '@hyva/react-checkout/utils';
 
-import { __ } from '../../../../i18n';
 import { performRedirect } from '../utility';
 import { LOGIN_FORM } from '../../../../config';
-import { _isObjEmpty, _keys } from '../../../../utils';
 import usePayOneAppContext from './usePayOneAppContext';
 import usePayOneCartContext from './usePayOneCartContext';
 
 export default function usePerformPlaceOrder(paymentMethodCode) {
   const { cartId, setRestPaymentMethod, setOrderInfo } = usePayOneCartContext();
-  const {
-    isLoggedIn,
-    setPageLoader,
-    setErrorMessage,
-    checkoutAgreements,
-  } = usePayOneAppContext();
+  const { isLoggedIn, setPageLoader, setErrorMessage, checkoutAgreements } =
+    usePayOneAppContext();
 
   return useCallback(
     async (values, additionalData, extensionAttributes = {}) => {

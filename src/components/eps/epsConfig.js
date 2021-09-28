@@ -1,7 +1,7 @@
 import _get from 'lodash.get';
+import { __ } from '@hyva/react-checkout/i18n';
+import RootElement from '@hyva/react-checkout/utils/rootElement';
 
-import { __ } from '../../../../../i18n';
-import RootElement from '../../../../../utils/rootElement';
 import { getPayOneBaseConfig } from '../../utility/payOneBaseConfig';
 
 const paymentMethodCode = 'payone_obt_eps';

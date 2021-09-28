@@ -1,12 +1,11 @@
 import React, { useEffect } from 'react';
 import { func, shape } from 'prop-types';
+import { __ } from '@hyva/react-checkout/i18n';
+import Card from '@hyva/react-checkout/components/common/Card';
+import Checkbox from '@hyva/react-checkout/components/common/Form/Checkbox';
+import TextInput from '@hyva/react-checkout/components/common/Form/TextInput';
+import RadioInput from '@hyva/react-checkout/components/common/Form/RadioInput';
 
-import Card from '../../../../../components/common/Card';
-import Checkbox from '../../../../../components/common/Form/Checkbox';
-import TextInput from '../../../../../components/common/Form/TextInput';
-import RadioInput from '../../../../../components/common/Form/RadioInput';
-
-import { __ } from '../../../../../i18n';
 import sofortConfig from './sofortConfig';
 import { paymentMethodShape } from '../../utility';
 import usePayoneSofort from './hooks/usePayoneSofort';
@@ -95,7 +94,7 @@ function Sofort({ method, selected, actions }) {
 Sofort.propTypes = {
   method: paymentMethodShape.isRequired,
   selected: paymentMethodShape.isRequired,
-  actions: shape({ change: func }),
+  actions: shape({ change: func }).isRequired,
 };
 
 export default Sofort;

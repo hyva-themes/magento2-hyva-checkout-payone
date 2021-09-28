@@ -1,13 +1,13 @@
 import React from 'react';
 import _get from 'lodash.get';
 import { string } from 'prop-types';
+import RadioInput from '@hyva/react-checkout/components/common/Form/RadioInput';
 
 import CCForm from './CCForm';
-import RadioInput from '../../../../../components/common/Form/RadioInput';
 import { selectedCardField } from './utility';
 import creditCardConfig from './creditCardConfig';
-import usePayOnePaymentMethodContext from '../../hooks/usePayOnePaymentMethodContext';
 import { PAYMENT_METHOD_FORM } from '../../../../../config';
+import usePayOnePaymentMethodContext from '../../hooks/usePayOnePaymentMethodContext';
 
 function formatCardExpireDate(expireDate) {
   return `${expireDate.substring(2, 4)}/${expireDate.substring(0, 2)}`;
@@ -27,7 +27,7 @@ function SavedCards({ detectedCardType }) {
   return (
     <table className="w-full text-sm">
       <tbody>
-        {creditCardConfig.savedPaymentData.map(payment => (
+        {creditCardConfig.savedPaymentData.map((payment) => (
           <tr
             key={payment.id}
             className="h-20 bg-white border-t border-gray-400"
