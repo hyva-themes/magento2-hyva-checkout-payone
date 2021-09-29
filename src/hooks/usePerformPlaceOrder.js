@@ -11,12 +11,8 @@ import usePayOneCartContext from './usePayOneCartContext';
 
 export default function usePerformPlaceOrder(paymentMethodCode) {
   const { cartId, setRestPaymentMethod, setOrderInfo } = usePayOneCartContext();
-  const {
-    isLoggedIn,
-    setPageLoader,
-    setErrorMessage,
-    checkoutAgreements,
-  } = usePayOneAppContext();
+  const { isLoggedIn, setPageLoader, setErrorMessage, checkoutAgreements } =
+    usePayOneAppContext();
 
   return useCallback(
     async (values, additionalData, extensionAttributes = {}) => {

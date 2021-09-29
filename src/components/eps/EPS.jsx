@@ -93,7 +93,7 @@ function EPS({ method, selected, actions }) {
 EPS.propTypes = {
   method: paymentMethodShape.isRequired,
   selected: paymentMethodShape.isRequired,
-  actions: shape({ change: func }),
+  actions: shape({ change: func }).isRequired,
 };
 
 export default EPS;

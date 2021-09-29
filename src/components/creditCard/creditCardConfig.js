@@ -65,7 +65,7 @@ const paymentConfig = {
 
   getDefaultSavedCard() {
     return paymentConfig.savedPaymentData.find(
-      payment => Number(payment.is_default) === 1
+      (payment) => Number(payment.is_default) === 1
     );
   },
 

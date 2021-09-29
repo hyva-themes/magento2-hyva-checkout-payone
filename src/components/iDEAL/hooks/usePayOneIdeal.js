@@ -10,7 +10,7 @@ export default function usePayOneIdeal(paymentMethodCode) {
   const performPlaceOrder = usePerformPlaceOrder(paymentMethodCode);
 
   const placeOrderWithIdeal = useCallback(
-    async values => {
+    async (values) => {
       const bankGroup = _get(values, idealBankGroupField);
       const additionalData = { bank_group: bankGroup };
 

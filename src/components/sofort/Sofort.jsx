@@ -95,7 +95,7 @@ function Sofort({ method, selected, actions }) {
 Sofort.propTypes = {
   method: paymentMethodShape.isRequired,
   selected: paymentMethodShape.isRequired,
-  actions: shape({ change: func }),
+  actions: shape({ change: func }).isRequired,
 };
 
 export default Sofort;
