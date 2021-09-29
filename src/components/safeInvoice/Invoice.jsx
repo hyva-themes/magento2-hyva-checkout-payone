@@ -12,11 +12,8 @@ import usePerformPlaceOrder from '../../hooks/usePerformPlaceOrder';
 import usePayOneCheckoutFormContext from '../../hooks/usePayOneCheckoutFormContext';
 import usePayOnePaymentMethodContext from '../../hooks/usePayOnePaymentMethodContext';
 
-const {
-  instructions,
-  canShowPaymentText,
-  canShowBoniAgreement,
-} = invoiceConfig;
+const { instructions, canShowPaymentText, canShowBoniAgreement } =
+  invoiceConfig;
 
 const boniAgreementField = `${PAYMENT_METHOD_FORM}.payone.invoice.boniAgreement`;
 
@@ -27,7 +24,7 @@ function Invoice({ method, selected, actions }) {
   const isSelected = method.code === selected.code;
 
   const placeOrderWithInvoice = useCallback(
-    values => performPlaceOrder(values),
+    (values) => performPlaceOrder(values),
     [performPlaceOrder]
   );
 
@@ -86,7 +83,7 @@ function Invoice({ method, selected, actions }) {
 Invoice.propTypes = {
   method: paymentMethodShape.isRequired,
   selected: paymentMethodShape.isRequired,
-  actions: shape({ change: func }),
+  actions: shape({ change: func }).isRequired,
 };
 
 export default Invoice;

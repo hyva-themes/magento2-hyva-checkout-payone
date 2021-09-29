@@ -15,7 +15,7 @@ export default function usePayoneSofort(paymentMethodCode) {
   const performPlaceOrder = usePerformPlaceOrder(paymentMethodCode);
 
   const placeOrderWithSofort = useCallback(
-    async values => {
+    async (values) => {
       const { bic, iban } = _get(values, sofortField);
 
       if (sofortConfig.requestIbanBic) {
