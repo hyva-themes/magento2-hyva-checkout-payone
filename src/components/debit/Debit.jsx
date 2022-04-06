@@ -107,9 +107,9 @@ function Debit({ method, selected, actions }) {
 }
 
 Debit.propTypes = {
-  actions: shape({ change: func }),
   method: paymentMethodShape.isRequired,
   selected: paymentMethodShape.isRequired,
+  actions: shape({ change: func }).isRequired,
 };
 
 export default Debit;

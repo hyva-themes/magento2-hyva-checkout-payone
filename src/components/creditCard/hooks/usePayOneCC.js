@@ -44,7 +44,7 @@ export default function usePayOneCC(paymentMethodCode) {
   );
 
   const handleCreditCardCheckThenPlaceOrder = useCallback(
-    async values => {
+    async (values) => {
       const { isValid, message } = validate(values);
 
       if (!isValid) {
@@ -61,7 +61,7 @@ export default function usePayOneCC(paymentMethodCode) {
       // PayOne Request if the data is valid
       if (window.iframes.isComplete()) {
         setPageLoader(true);
-        window.processPayoneResponseCCHosted = async response => {
+        window.processPayoneResponseCCHosted = async (response) => {
           await processPayoneResponseCCHosted(response, values);
         };
         window.iframes.creditCardCheck('processPayoneResponseCCHosted');

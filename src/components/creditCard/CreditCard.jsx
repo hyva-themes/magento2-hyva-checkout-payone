@@ -26,7 +26,7 @@ function CreditCard({ method, selected, actions }) {
    * is selected by the user.
    */
   const paymentSubmitHandler = useCallback(
-    async values => {
+    async (values) => {
       await handleCreditCardCheckThenPlaceOrder(values);
       return false;
     },
@@ -108,9 +108,9 @@ function CreditCard({ method, selected, actions }) {
 }
 
 CreditCard.propTypes = {
-  actions: shape({ change: func }),
   method: paymentMethodShape.isRequired,
   selected: paymentMethodShape.isRequired,
+  actions: shape({ change: func }).isRequired,
 };
 
 export default CreditCard;

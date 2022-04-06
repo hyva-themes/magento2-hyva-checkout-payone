@@ -28,7 +28,7 @@ function GiroPay({ method, selected, actions }) {
   const isSelected = method.code === selected.code;
 
   const placeOrderWithGiroPay = useCallback(
-    async values => {
+    async (values) => {
       const { bic, iban } = _get(values, giroPayField);
 
       if (!bic) {
@@ -121,9 +121,9 @@ function GiroPay({ method, selected, actions }) {
 }
 
 GiroPay.propTypes = {
-  actions: shape({ change: func }),
   method: paymentMethodShape.isRequired,
   selected: paymentMethodShape.isRequired,
+  actions: shape({ change: func }).isRequired,
 };
 
 export default GiroPay;

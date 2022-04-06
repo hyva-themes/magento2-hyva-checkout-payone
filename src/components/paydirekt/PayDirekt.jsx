@@ -15,11 +15,8 @@ import usePerformPlaceOrder from '../../hooks/usePerformPlaceOrder';
 import usePayOneCheckoutFormContext from '../../hooks/usePayOneCheckoutFormContext';
 import usePayOnePaymentMethodContext from '../../hooks/usePayOnePaymentMethodContext';
 
-const {
-  instructions,
-  canShowPaymentText,
-  canShowBoniAgreement,
-} = payDirektConfig;
+const { instructions, canShowPaymentText, canShowBoniAgreement } =
+  payDirektConfig;
 
 const boniAgreementField = `${PAYMENT_METHOD_FORM}.payone.paydirekt.boniAgreement`;
 
@@ -31,7 +28,7 @@ function PayDirekt({ method, selected, actions }) {
   const performPlaceOrder = usePerformPlaceOrder(method.code);
 
   const placeOrderWithPayDirekt = useCallback(
-    values => performPlaceOrder(values),
+    (values) => performPlaceOrder(values),
     [performPlaceOrder]
   );
 
@@ -93,9 +90,9 @@ function PayDirekt({ method, selected, actions }) {
 }
 
 PayDirekt.propTypes = {
-  actions: shape({ change: func }),
   method: paymentMethodShape.isRequired,
   selected: paymentMethodShape.isRequired,
+  actions: shape({ change: func }).isRequired,
 };
 
 export default PayDirekt;

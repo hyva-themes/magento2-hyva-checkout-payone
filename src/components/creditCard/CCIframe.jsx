@@ -24,7 +24,7 @@ function CCIframe({ detectedCardType }) {
 
   if (isAutoCardtypeDetectionEnabled) {
     detectedCard = creditCardConfig.availableCardTypes.find(
-      cardType => cardType.id.toUpperCase() === detectedCardType
+      (cardType) => cardType.id.toUpperCase() === detectedCardType
     );
 
     if (detectedCard) {
@@ -41,7 +41,7 @@ function CCIframe({ detectedCardType }) {
           </label>
           <div className="flex space-x-2">
             {isAutoCardtypeDetectionEnabled &&
-              availableCardTypes.map(cardType => (
+              availableCardTypes.map((cardType) => (
                 <img
                   key={cardType.id}
                   alt={cardType.title}
@@ -51,7 +51,7 @@ function CCIframe({ detectedCardType }) {
               ))}
           </div>
         </div>
-        <div id="cardpan" className="inputIframe"></div>
+        <div id="cardpan" className="inputIframe" />
       </div>
 
       <div>
@@ -59,8 +59,8 @@ function CCIframe({ detectedCardType }) {
           {__('Expiration Date')}
         </label>
         <div className="flex justify-between">
-          <div className="w-2/5" id="cardexpiremonth"></div>
-          <div className="w-2/5" id="cardexpireyear"></div>
+          <div className="w-2/5" id="cardexpiremonth" />
+          <div className="w-2/5" id="cardexpireyear" />
         </div>
       </div>
 
@@ -69,7 +69,7 @@ function CCIframe({ detectedCardType }) {
           <label htmlFor="cardcvc2" className="md:text-sm">
             {__('Card Verification Number')}
           </label>
-          <div id="cardcvc2" className="inputIframe"></div>
+          <div id="cardcvc2" className="inputIframe" />
         </div>
       )}
 

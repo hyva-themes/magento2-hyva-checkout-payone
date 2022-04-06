@@ -91,9 +91,9 @@ function Ideal({ method, selected, actions }) {
 }
 
 Ideal.propTypes = {
-  actions: shape({ change: func }),
   method: paymentMethodShape.isRequired,
   selected: paymentMethodShape.isRequired,
+  actions: shape({ change: func }).isRequired,
 };
 
 export default Ideal;

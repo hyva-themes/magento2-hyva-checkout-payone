@@ -16,7 +16,7 @@ const cardTypeOptions = creditCardConfig.availableCardTypes.map(
 function CCForm({ detectedCardType }) {
   const { setFieldValue, formikData } = usePayOnePaymentMethodContext();
 
-  const handleCardTypeChange = event => {
+  const handleCardTypeChange = (event) => {
     const newCardTypeSelected = event.target.value;
 
     setFieldValue(cardTypeField, newCardTypeSelected);

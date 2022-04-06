@@ -47,6 +47,18 @@ Below you will find the steps to integrate payone methods.
         }
     },
     ```
+
+    If you are using [**Hyvä Checkout Example Template**](https://github.com/hyva-themes/magento2-checkout-example), then you should use below configuration instead of above.
+
+    File: `src/reactapp/package.json`
+    ```
+    "config": {
+        "paymentMethodsRepo": {
+            "payone": "git@github.com:hyva-themes/magento2-hyva-checkout-payone.git -b hyva-checkout-example-template"
+        }
+    },
+    ```
+
     With this code in `package.json` and running `npm install`, then you are all set. This repo will be copied into the Hyvä Checkout and configured correctly.
 
 3. Finally, we need to build the app again. For this, you need to run `npm run build` from the root directory of Hyvä Checkout module. After this, if you navigate to the checkout page from your site, then you will see all the payone options you have configured in the above step.

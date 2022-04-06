@@ -10,7 +10,7 @@ export default function usePayOneEPS(paymentMethodCode) {
   const performPlaceOrder = usePerformPlaceOrder(paymentMethodCode);
 
   const placeOrderWithEPS = useCallback(
-    async values => {
+    async (values) => {
       const bankGroup = _get(values, epsBankGroupField);
       const additionalData = { bank_group: bankGroup };
 

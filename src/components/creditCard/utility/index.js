@@ -49,6 +49,14 @@ export function isCardholderDataValid(sCardholder) {
   return false;
 }
 
+function getSelectedSavedCard(values) {
+  const { savedPaymentData = [] } = creditCardConfig;
+  const selectedCardPan = _get(values, selectedCardField);
+  return savedPaymentData.find(
+    (card) => creditCardConfig.getCardPan(card) === selectedCardPan
+  );
+}
+
 export function validate(values) {
   if (!creditCardConfig.isSavedPaymentDataUsed(values)) {
     const cardType = _get(values, cardTypeField);
@@ -100,26 +108,14 @@ export function validate(values) {
   return { isValid: true };
 }
 
-function getSelectedSavedCard(values) {
-  const { savedPaymentData = [] } = creditCardConfig;
-  const selectedCardPan = _get(values, selectedCardField);
-  return savedPaymentData.find(
-    card => creditCardConfig.getCardPan(card) === selectedCardPan
-  );
-}
-
 export function prepareSetPaymentMethodData(response, values) {
   const payment = _get(values, PAYMENT_METHOD_FORM);
   const cardholder = _get(payment, 'additional_data.cardholder');
   const saveData = Number(!!_get(payment, 'additional_data.saveData'));
   const selectedCardPan = _get(values, selectedCardField);
   const isLoggedIn = !!LocalStorage.getCustomerToken();
-  const {
-    cardtype,
-    pseudocardpan,
-    cardexpiredate,
-    truncatedcardpan,
-  } = response;
+  const { cardtype, pseudocardpan, cardexpiredate, truncatedcardpan } =
+    response;
 
   let additionalData = {
     cardtype,

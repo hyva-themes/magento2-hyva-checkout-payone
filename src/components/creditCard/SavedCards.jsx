@@ -27,7 +27,7 @@ function SavedCards({ detectedCardType }) {
   return (
     <table className="w-full text-sm">
       <tbody>
-        {creditCardConfig.savedPaymentData.map(payment => (
+        {creditCardConfig.savedPaymentData.map((payment) => (
           <tr
             key={payment.id}
             className="h-20 bg-white border-t border-gray-400"

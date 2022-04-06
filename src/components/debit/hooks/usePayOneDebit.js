@@ -14,7 +14,7 @@ export default function usePayOneDebit(paymentMethodCode) {
   const performPlaceOrder = usePerformPlaceOrder(paymentMethodCode);
 
   const performPlaceOrderWithDebit = useCallback(
-    async values => {
+    async (values) => {
       const bic = _get(values, bicField);
       const iban = _get(values, ibanField);
       const bankCountry = _get(values, debitCountryField);
@@ -48,7 +48,7 @@ export default function usePayOneDebit(paymentMethodCode) {
   );
 
   const handleBankAccountCheck = useCallback(
-    values => {
+    (values) => {
       const iban = _get(values, ibanField);
       const oBasicRequest = {
         ...debitConfig.bankAccountCheckRequest,
@@ -61,7 +61,7 @@ export default function usePayOneDebit(paymentMethodCode) {
 
       window.processPayOneResponseELV =
         window.processPayOneResponseELV ||
-        (response => processPayOneResponseELV(response, values));
+        ((response) => processPayOneResponseELV(response, values));
 
       const options = {
         return_type: 'object',
@@ -76,7 +76,7 @@ export default function usePayOneDebit(paymentMethodCode) {
   );
 
   return useCallback(
-    async values => {
+    async (values) => {
       try {
         setPageLoader(true);
 

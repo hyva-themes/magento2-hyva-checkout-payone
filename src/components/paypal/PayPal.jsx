@@ -19,7 +19,7 @@ function PayPal({ method, selected, actions }) {
   const performPlaceOrder = usePerformPlaceOrder(method.code);
 
   const placeOrderWithPayPal = useCallback(
-    values => performPlaceOrder(values),
+    (values) => performPlaceOrder(values),
     [performPlaceOrder]
   );
 
@@ -72,7 +72,7 @@ function PayPal({ method, selected, actions }) {
 PayPal.propTypes = {
   method: paymentMethodShape.isRequired,
   selected: paymentMethodShape.isRequired,
-  actions: shape({ change: func }),
+  actions: shape({ change: func }).isRequired,
 };
 
 export default PayPal;
