@@ -1,10 +1,10 @@
 # magento2-hyva-checkout-payone
-Payone Payment method for Hyvä Checkout
+Payone Payment method for the Hyvä React Checkout
 
 ## Prerequisites
 
 1. A working Magento site with **[Payone](https://github.com/PAYONE-GmbH/magento-2)** module installed and setup.
-2. **[Hyvä Checkout](https://github.com/hyva-themes/magento2-hyva-checkout)** is installed and setup.
+2. **[Hyvä Checkout](https://github.com/hyva-themes/magento2-react-checkout)** is installed and setup.
 
 ## How to use it with Hyvä Checkout?
 Below you will find the steps to integrate payone methods.
@@ -63,9 +63,29 @@ Below you will find the steps to integrate payone methods.
 
 3. Finally, we need to build the app again. For this, you need to run `npm run build` from the root directory of Hyvä Checkout module. After this, if you navigate to the checkout page from your site, then you will see all the payone options you have configured in the above step.
 
-## More Reading
+## Documentation
 
-- If you have any doubts about the building the react app, then **[read more about it here](https://hyva-themes.github.io/magento2-hyva-checkout/build/)**.
-- If you want to know more about how Hyvä Checkout helps you to integrate any payment methods, then **[read more about it here](https://hyva-themes.github.io/magento2-hyva-checkout/payment-integration/)**.
-- The official documentation of **[Hyvä Checkout](https://hyva-themes.github.io/magento2-hyva-checkout)**
+- If you need information on the build process of the React Checkout, then you can **[read more about it here](https://hyva-themes.github.io/magento2-react-checkout/build/)**.
+- If you want to know more about how Hyvä Checkout helps you to integrate any payment methods, then **[read more about it here](https://hyva-themes.github.io/magento2-react-checkout/payment-integration/)**.
+- The official documentation of **[Hyvä React Checkout](https://hyva-themes.github.io/magento2-react-checkout)**
 - The documentation of **[Payone](https://github.com/PAYONE-GmbH/magento-2)** module
+
+## Credits
+
+This Checkout has been built in corporation - and with the support of - our main partner, integer_net.
+
+# [![integer_net GmbH](https://github.com/hyva-themes/magento2-react-checkout/blob/documentation/docs/images/logo-integernet.png)](https://integer-net.de)
+
+- [Rajeev K Tomy][link-author]
+- [integer_net GmbH][link-company1]
+- [All Contributors][link-contributors]
+
+## License
+
+The MIT License (MIT). Please see [License File](LICENSE.txt) for more information.
+
+[ico-compatibility]: https://img.shields.io/badge/magento-%202.3%20|%202.4-brightgreen.svg?logo=magento&longCache=true&style=flat-square
+
+[link-author]: https://github.com/progammer-rkt
+[link-company1]: https://integer-net.com
+[link-contributors]: ../../contributors
