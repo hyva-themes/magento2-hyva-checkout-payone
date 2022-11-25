@@ -13,4 +13,10 @@ const sofortConfig = {
   instructions: _get(config, `instructions.${paymentMethodCode}`, ''),
 };
 
+sofortConfig.canShow =
+  sofortConfig.paymentHintText ||
+  sofortConfig.agreementMessage ||
+  sofortConfig.requestIbanBic ||
+  sofortConfig.instructions;
+
 export default sofortConfig;

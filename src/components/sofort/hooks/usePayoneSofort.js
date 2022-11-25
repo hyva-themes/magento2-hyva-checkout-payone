@@ -17,7 +17,7 @@ export default function usePayoneSofort(paymentMethodCode) {
   const placeOrderWithSofort = useCallback(
     async (values) => {
       if (sofortConfig.requestIbanBic) {
-        const { bic, iban } = _get(values, sofortField);
+        const { bic, iban } = _get(values, sofortField) || {};
 
         if (!bic || bic === '') {
           setErrorMessage(__('Please enter a valid BIC.'));

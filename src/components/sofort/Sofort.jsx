@@ -34,59 +34,57 @@ function Sofort({ method, selected, actions }) {
 
   const sofortRadioInput = (
     <RadioInput
+      value={method.code}
       label={method.title}
       name="paymentMethod"
-      value={method.code}
-      onChange={actions.change}
       checked={isSelected}
+      onChange={actions.change}
     />
   );
 
-  if (!isSelected) {
+  if (!isSelected || !sofortConfig.canShow) {
     return sofortRadioInput;
   }
 
   return (
     <div>
-      <div>
-        {sofortRadioInput}
-        <div className="mx-4 my-4">
-          <Card bg="darker">
-            <div className="container flex flex-col justify-center w-4/5">
-              {sofortConfig.instructions && <p>{sofortConfig.instructions}</p>}
-              {sofortConfig.paymentHintText && (
-                <div>
-                  <strong>
-                    <span>{sofortConfig.paymentHintText}</span>
-                  </strong>
-                </div>
-              )}
-              {sofortConfig.agreementMessage && (
-                <div>
-                  <Checkbox
-                    name="agreement"
-                    label={__(sofortConfig.agreementMessage)}
-                    formikData={formikData}
-                  />
-                </div>
-              )}
-              {sofortConfig.requestIbanBic && (
-                <div>
-                  <TextInput
-                    label="IBAN"
-                    name={ibanField}
-                    formikData={formikData}
-                  />
-                  <TextInput
-                    label="BIC"
-                    name={bicField}
-                    formikData={formikData}
-                  />
-                </div>
-              )}
-            </div>
-          </Card>
-        </div>
+      {sofortRadioInput}
+      <div className="mx-4 my-4">
+        <Card bg="darker">
+          <div className="container flex flex-col justify-center w-4/5">
+            {sofortConfig.instructions && <p>{sofortConfig.instructions}</p>}
+            {sofortConfig.paymentHintText && (
+              <div>
+                <strong>
+                  <span>{sofortConfig.paymentHintText}</span>
+                </strong>
+              </div>
+            )}
+            {sofortConfig.agreementMessage && (
+              <div>
+                <Checkbox
+                  name="agreement"
+                  formikData={formikData}
+                  label={__(sofortConfig.agreementMessage)}
+                />
+              </div>
+            )}
+            {sofortConfig.requestIbanBic && (
+              <div>
+                <TextInput
+                  label="IBAN"
+                  name={ibanField}
+                  formikData={formikData}
+                />
+                <TextInput
+                  label="BIC"
+                  name={bicField}
+                  formikData={formikData}
+                />
+              </div>
+            )}
+          </div>
+        </Card>
       </div>
     </div>
   );
