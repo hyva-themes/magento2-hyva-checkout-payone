@@ -19,5 +19,4 @@ sofortConfig.canShow =
   sofortConfig.requestIbanBic ||
   sofortConfig.instructions;
 
-
 export default sofortConfig;
